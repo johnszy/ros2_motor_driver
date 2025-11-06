@@ -195,8 +195,7 @@
 
 
 volatile signed long en0 = 0;
-volatile signed long prevEn0 = 0;
-volatile signed long speed = 0;
+
 
 /**
    @Param

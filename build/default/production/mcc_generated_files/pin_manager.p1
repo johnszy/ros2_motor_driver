@@ -1,5 +1,5 @@
 Version 4.0 HI-TECH Software Intermediate Code
-[v F9616 `(v ~T0 @X0 0 tf ]
+[v F9614 `(v ~T0 @X0 0 tf ]
 "2631 C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h
 [; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h: 2631: extern volatile unsigned char LATA __attribute__((address(0x10C)));
 [v _LATA `Vuc ~T0 @X0 0 e@268 ]
@@ -123,12 +123,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 "7123
 [; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h: 7123: extern volatile IOCAPbits_t IOCAPbits __attribute__((address(0x391)));
 [v _IOCAPbits `VS351 ~T0 @X0 0 e@913 ]
-[v F9609 `(v ~T0 @X0 0 tf ]
-"259 mcc_generated_files/pin_manager.h
-[; ;mcc_generated_files/pin_manager.h: 259: void IOCAF0_SetInterruptHandler(void (* InterruptHandler)(void));
-[v _IOCAF0_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F9609 ]
-"307
-[; ;mcc_generated_files/pin_manager.h: 307: void IOCAF0_DefaultInterruptHandler(void);
+[v F9607 `(v ~T0 @X0 0 tf ]
+"258 mcc_generated_files/pin_manager.h
+[; ;mcc_generated_files/pin_manager.h: 258: void IOCAF0_SetInterruptHandler(void (* InterruptHandler)(void));
+[v _IOCAF0_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F9607 ]
+"306
+[; ;mcc_generated_files/pin_manager.h: 306: void IOCAF0_DefaultInterruptHandler(void);
 [v _IOCAF0_DefaultInterruptHandler `(v ~T0 @X0 0 ef ]
 "357 C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h
 [; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h: 357:     struct {
@@ -157,8 +157,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "22731
 [; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h: 22731: extern volatile unsigned char RA2PPS __attribute__((address(0xE92)));
 [v _RA2PPS `Vuc ~T0 @X0 0 e@3730 ]
-"236 mcc_generated_files/pin_manager.h
-[; ;mcc_generated_files/pin_manager.h: 236: void IOCAF0_ISR(void);
+"235 mcc_generated_files/pin_manager.h
+[; ;mcc_generated_files/pin_manager.h: 235: void IOCAF0_ISR(void);
 [v _IOCAF0_ISR `(v ~T0 @X0 0 ef ]
 "435 C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h
 [; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h: 435:     struct {
@@ -171,9 +171,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "444
 [; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h: 444: extern volatile PORTAbits_t PORTAbits __attribute__((address(0x00C)));
 [v _PORTAbits `VS33 ~T0 @X0 0 e@12 ]
+[v F9619 `(v ~T0 @X0 0 tf ]
 [v F9621 `(v ~T0 @X0 0 tf ]
 [v F9623 `(v ~T0 @X0 0 tf ]
-[v F9625 `(v ~T0 @X0 0 tf ]
 "54 C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h
 [; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h: 54: __asm("INDF0 equ 00h");
 [; <" INDF0 equ 00h ;# ">
@@ -1506,21 +1506,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 [i _en0
 -> -> 0 `i `l
 ]
-"198
-[; ;mcc_generated_files/pin_manager.h: 198: volatile signed long prevEn0 = 0;
-[v _prevEn0 `Vl ~T0 @X0 1 e ]
-[i _prevEn0
--> -> 0 `i `l
-]
-"199
-[; ;mcc_generated_files/pin_manager.h: 199: volatile signed long speed = 0;
-[v _speed `Vl ~T0 @X0 1 e ]
-[i _speed
--> -> 0 `i `l
-]
 "54 mcc_generated_files/pin_manager.c
 [; ;mcc_generated_files/pin_manager.c: 54: void (*IOCAF0_InterruptHandler)(void);
-[v _IOCAF0_InterruptHandler `*F9616 ~T0 @X0 1 e ]
+[v _IOCAF0_InterruptHandler `*F9614 ~T0 @X0 1 e ]
 "57
 [; ;mcc_generated_files/pin_manager.c: 57: void PIN_MANAGER_Initialize(void)
 [v _PIN_MANAGER_Initialize `(v ~T0 @X0 1 ef ]
@@ -1685,7 +1673,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 1221 ]
 "160
 [; ;mcc_generated_files/pin_manager.c: 160:     if(IOCAF0_InterruptHandler)
-[e $ ! != _IOCAF0_InterruptHandler -> -> 0 `i `*F9621 1222  ]
+[e $ ! != _IOCAF0_InterruptHandler -> -> 0 `i `*F9619 1222  ]
 "161
 [; ;mcc_generated_files/pin_manager.c: 161:     {
 {
@@ -1705,10 +1693,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 }
 "170
 [; ;mcc_generated_files/pin_manager.c: 170: void IOCAF0_SetInterruptHandler(void (* InterruptHandler)(void)){
-[v _IOCAF0_SetInterruptHandler `(v ~T0 @X0 1 ef1`*F9623 ]
+[v _IOCAF0_SetInterruptHandler `(v ~T0 @X0 1 ef1`*F9621 ]
 {
 [e :U _IOCAF0_SetInterruptHandler ]
-[v _InterruptHandler `*F9625 ~T0 @X0 1 r1 ]
+[v _InterruptHandler `*F9623 ~T0 @X0 1 r1 ]
 [f ]
 "171
 [; ;mcc_generated_files/pin_manager.c: 171:     IOCAF0_InterruptHandler = InterruptHandler;

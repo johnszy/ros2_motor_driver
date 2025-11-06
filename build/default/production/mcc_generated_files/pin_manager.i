@@ -16927,19 +16927,17 @@ extern __bank0 __bit __timeout;
 # 54 "mcc_generated_files/pin_manager.h" 2
 # 197 "mcc_generated_files/pin_manager.h"
 volatile signed long en0 = 0;
-volatile signed long prevEn0 = 0;
-volatile signed long speed = 0;
-# 211 "mcc_generated_files/pin_manager.h"
+# 210 "mcc_generated_files/pin_manager.h"
 void PIN_MANAGER_Initialize (void);
-# 223 "mcc_generated_files/pin_manager.h"
+# 222 "mcc_generated_files/pin_manager.h"
 void PIN_MANAGER_IOC(void);
-# 236 "mcc_generated_files/pin_manager.h"
+# 235 "mcc_generated_files/pin_manager.h"
 void IOCAF0_ISR(void);
-# 259 "mcc_generated_files/pin_manager.h"
+# 258 "mcc_generated_files/pin_manager.h"
 void IOCAF0_SetInterruptHandler(void (* InterruptHandler)(void));
-# 283 "mcc_generated_files/pin_manager.h"
+# 282 "mcc_generated_files/pin_manager.h"
 extern void (*IOCAF0_InterruptHandler)(void);
-# 307 "mcc_generated_files/pin_manager.h"
+# 306 "mcc_generated_files/pin_manager.h"
 void IOCAF0_DefaultInterruptHandler(void);
 # 49 "mcc_generated_files/pin_manager.c" 2
 

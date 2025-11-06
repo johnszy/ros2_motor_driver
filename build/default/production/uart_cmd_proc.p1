@@ -1363,18 +1363,6 @@ Version 4.0 HI-TECH Software Intermediate Code
 [i _en0
 -> -> 0 `i `l
 ]
-"198
-[; ;./mcc_generated_files/pin_manager.h: 198: volatile signed long prevEn0 = 0;
-[v _prevEn0 `Vl ~T0 @X0 1 e ]
-[i _prevEn0
--> -> 0 `i `l
-]
-"199
-[; ;./mcc_generated_files/pin_manager.h: 199: volatile signed long speed = 0;
-[v _speed `Vl ~T0 @X0 1 e ]
-[i _speed
--> -> 0 `i `l
-]
 "64 ./mcc_generated_files/tmr3.h
 [; ;./mcc_generated_files/tmr3.h: 64: volatile int wheel_speed_rpm = 0;
 [v _wheel_speed_rpm `Vi ~T0 @X0 1 e ]
@@ -1595,8 +1583,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "132
 [; ;uart_cmd_proc.c: 132:     {
 {
-[v F10285 `us ~T0 @X0 -> 4 `i s ]
-[i F10285
+[v F10283 `us ~T0 @X0 -> 4 `i s ]
+[i F10283
 :U ..
 "133
 [; ;uart_cmd_proc.c: 133:         uint16_t pwm_nums[4] = {0};
@@ -1604,7 +1592,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 ..
 ]
 [v _pwm_nums `us ~T0 @X0 -> 4 `i a ]
-[e = _pwm_nums F10285 ]
+[e = _pwm_nums F10283 ]
 "134
 [; ;uart_cmd_proc.c: 134:         char *token = strtok(cmd+1, ",");
 [v _token `*uc ~T0 @X0 1 a ]

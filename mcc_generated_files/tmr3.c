@@ -174,6 +174,18 @@ void TMR3_SetInterruptHandler(void (* InterruptHandler)(void)){
 
 void TMR3_DefaultInterruptHandler(void){
     // add your TMR3 interrupt custom code
+    
+    static signed long last_ticks = 0;
+    signed long delta;
+
+    delta = en0 - last_ticks;
+    last_ticks = en0;
+
+    // Example calculation ? depends on your encoder CPR and wheel size
+    // speed = (delta ticks / 0.1s) ? ticks per second
+    // then convert to RPM or linear speed
+    wheel_speed_rpm = (delta * 50 * 60) / 210;
+    
     // or set custom function using TMR3_SetInterruptHandler()
 }
 

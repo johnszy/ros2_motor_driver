@@ -1,6 +1,6 @@
 Version 4.0 HI-TECH Software Intermediate Code
-"211 mcc_generated_files/pin_manager.h
-[; ;mcc_generated_files/pin_manager.h: 211: void PIN_MANAGER_Initialize (void);
+"210 mcc_generated_files/pin_manager.h
+[; ;mcc_generated_files/pin_manager.h: 210: void PIN_MANAGER_Initialize (void);
 [v _PIN_MANAGER_Initialize `(v ~T0 @X0 0 ef ]
 "88 mcc_generated_files/mcc.h
 [; ;mcc_generated_files/mcc.h: 88: void OSCILLATOR_Initialize(void);
@@ -1359,18 +1359,6 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;mcc_generated_files/pin_manager.h: 197: volatile signed long en0 = 0;
 [v _en0 `Vl ~T0 @X0 1 e ]
 [i _en0
--> -> 0 `i `l
-]
-"198
-[; ;mcc_generated_files/pin_manager.h: 198: volatile signed long prevEn0 = 0;
-[v _prevEn0 `Vl ~T0 @X0 1 e ]
-[i _prevEn0
--> -> 0 `i `l
-]
-"199
-[; ;mcc_generated_files/pin_manager.h: 199: volatile signed long speed = 0;
-[v _speed `Vl ~T0 @X0 1 e ]
-[i _speed
 -> -> 0 `i `l
 ]
 "64 mcc_generated_files/tmr3.h

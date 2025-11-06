@@ -16,8 +16,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "374
 [; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h: 374: extern volatile INTCONbits_t INTCONbits __attribute__((address(0x00B)));
 [v _INTCONbits `VS30 ~T0 @X0 0 e@11 ]
-"223 mcc_generated_files/pin_manager.h
-[; ;mcc_generated_files/pin_manager.h: 223: void PIN_MANAGER_IOC(void);
+"222 mcc_generated_files/pin_manager.h
+[; ;mcc_generated_files/pin_manager.h: 222: void PIN_MANAGER_IOC(void);
 [v _PIN_MANAGER_IOC `(v ~T0 @X0 0 ef ]
 "2002 C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h
 [; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h: 2002:     struct {
@@ -1399,18 +1399,6 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;mcc_generated_files/pin_manager.h: 197: volatile signed long en0 = 0;
 [v _en0 `Vl ~T0 @X0 1 e ]
 [i _en0
--> -> 0 `i `l
-]
-"198
-[; ;mcc_generated_files/pin_manager.h: 198: volatile signed long prevEn0 = 0;
-[v _prevEn0 `Vl ~T0 @X0 1 e ]
-[i _prevEn0
--> -> 0 `i `l
-]
-"199
-[; ;mcc_generated_files/pin_manager.h: 199: volatile signed long speed = 0;
-[v _speed `Vl ~T0 @X0 1 e ]
-[i _speed
 -> -> 0 `i `l
 ]
 "64 mcc_generated_files/tmr3.h

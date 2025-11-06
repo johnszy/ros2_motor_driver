@@ -17176,4 +17176,16 @@ void TMR3_SetInterruptHandler(void (* InterruptHandler)(void)){
 void TMR3_DefaultInterruptHandler(void){
 
 
+    static signed long last_ticks = 0;
+    signed long delta;
+
+    delta = en0 - last_ticks;
+    last_ticks = en0;
+
+
+
+
+    wheel_speed_rpm = (delta * 50 * 60) / 210;
+
+
 }

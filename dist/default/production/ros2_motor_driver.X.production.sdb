@@ -47,6 +47,8 @@ TMR2_PWM4_OUT 14
 ]
 "1 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\abs.c
 [v _abs abs `(i  1 e 2 0 ]
+"5 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\aldiv.c
+[v ___aldiv __aldiv `(l  1 e 4 0 ]
 "7 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\aodiv.c
 [v ___aodiv __aodiv `(o  1 e 8 0 ]
 "7 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\aomod.c
@@ -91,6 +93,8 @@ TMR2_PWM4_OUT 14
 [v _strtok strtok `(*.5uc  1 e 1 0 ]
 "15 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\Umul16.c
 [v ___wmul __wmul `(ui  1 e 2 0 ]
+"15 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\Umul32.c
+[v ___lmul __lmul `(ul  1 e 4 0 ]
 "4 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\Umul8_16.c
 [v __Umul8_16 _Umul8_16 `(ui  1 e 2 0 ]
 "54 C:\Users\johns\MPLABXProjects\ros2_motor_driver.X\main.c
@@ -179,10 +183,6 @@ TMR2_PWM4_OUT 14
 [v _executeCommand executeCommand `(v  1 e 1 0 ]
 "197 C:\Users\johns\MPLABXProjects\ros2_motor_driver.X/mcc_generated_files/pin_manager.h
 [v _en0 en0 `VEl  1 e 4 0 ]
-"198
-[v _prevEn0 prevEn0 `VEl  1 e 4 0 ]
-"199
-[v _speed speed `VEl  1 e 4 0 ]
 "66 C:\Users\johns\MPLABXProjects\ros2_motor_driver.X/mcc_generated_files/tmr2.h
 [v _milli_sec milli_sec `VEul  1 e 4 0 ]
 "64 C:\Users\johns\MPLABXProjects\ros2_motor_driver.X/mcc_generated_files/tmr3.h
@@ -204,7 +204,7 @@ TMR2_PWM4_OUT 14
 ]
 [u S343 . 1 `S329 1 . 1 0 `S338 1 . 1 0 ]
 [v _INTCONbits INTCONbits `VES343  1 e 1 @11 ]
-[s S850 . 1 `uc 1 RA0 1 0 :1:0 
+[s S848 . 1 `uc 1 RA0 1 0 :1:0 
 `uc 1 RA1 1 0 :1:1 
 `uc 1 RA2 1 0 :1:2 
 `uc 1 RA3 1 0 :1:3 
@@ -212,8 +212,8 @@ TMR2_PWM4_OUT 14
 `uc 1 RA5 1 0 :1:5 
 ]
 "444
-[u S857 . 1 `S850 1 . 1 0 ]
-[v _PORTAbits PORTAbits `VES857  1 e 1 @12 ]
+[u S855 . 1 `S848 1 . 1 0 ]
+[v _PORTAbits PORTAbits `VES855  1 e 1 @12 ]
 [s S28 . 1 `uc 1 TMR1IF 1 0 :1:0 
 `uc 1 TMR2IF 1 0 :1:1 
 `uc 1 CCP1IF 1 0 :1:2 
@@ -354,7 +354,7 @@ TMR2_PWM4_OUT 14
 "2013
 [u S374 . 1 `S365 1 . 1 0 ]
 [v _PIE5bits PIE5bits `VES374  1 e 1 @148 ]
-[s S707 . 1 `uc 1 PS 1 0 :3:0 
+[s S705 . 1 `uc 1 PS 1 0 :3:0 
 `uc 1 PSA 1 0 :1:3 
 `uc 1 TMR0SE 1 0 :1:4 
 `uc 1 TMR0CS 1 0 :1:5 
@@ -362,15 +362,15 @@ TMR2_PWM4_OUT 14
 `uc 1 nWPUEN 1 0 :1:7 
 ]
 "2076
-[s S714 . 1 `uc 1 PS0 1 0 :1:0 
+[s S712 . 1 `uc 1 PS0 1 0 :1:0 
 `uc 1 PS1 1 0 :1:1 
 `uc 1 PS2 1 0 :1:2 
 `uc 1 . 1 0 :1:3 
 `uc 1 T0SE 1 0 :1:4 
 `uc 1 T0CS 1 0 :1:5 
 ]
-[u S721 . 1 `S707 1 . 1 0 `S714 1 . 1 0 ]
-[v _OPTION_REGbits OPTION_REGbits `VES721  1 e 1 @149 ]
+[u S719 . 1 `S705 1 . 1 0 `S712 1 . 1 0 ]
+[v _OPTION_REGbits OPTION_REGbits `VES719  1 e 1 @149 ]
 "2198
 [v _OSCTUNE OSCTUNE `VEuc  1 e 1 @152 ]
 "2256
@@ -381,7 +381,7 @@ TMR2_PWM4_OUT 14
 [v _LATB LATB `VEuc  1 e 1 @269 ]
 "2720
 [v _LATC LATC `VEuc  1 e 1 @270 ]
-[s S1096 . 1 `uc 1 LATC0 1 0 :1:0 
+[s S1093 . 1 `uc 1 LATC0 1 0 :1:0 
 `uc 1 LATC1 1 0 :1:1 
 `uc 1 LATC2 1 0 :1:2 
 `uc 1 LATC3 1 0 :1:3 
@@ -391,8 +391,8 @@ TMR2_PWM4_OUT 14
 `uc 1 LATC7 1 0 :1:7 
 ]
 "2737
-[u S1105 . 1 `S1096 1 . 1 0 ]
-[v _LATCbits LATCbits `VES1105  1 e 1 @270 ]
+[u S1102 . 1 `S1093 1 . 1 0 ]
+[v _LATCbits LATCbits `VES1102  1 e 1 @270 ]
 "3056
 [v _BORCON BORCON `VEuc  1 e 1 @278 ]
 "3331
@@ -411,7 +411,7 @@ TMR2_PWM4_OUT 14
 [v _SPBRGH SPBRGH `VEuc  1 e 1 @412 ]
 "3919
 [v _RC1STA RC1STA `VEuc  1 e 1 @413 ]
-[s S616 . 1 `uc 1 RX9D 1 0 :1:0 
+[s S614 . 1 `uc 1 RX9D 1 0 :1:0 
 `uc 1 OERR 1 0 :1:1 
 `uc 1 FERR 1 0 :1:2 
 `uc 1 ADDEN 1 0 :1:3 
@@ -421,11 +421,11 @@ TMR2_PWM4_OUT 14
 `uc 1 SPEN 1 0 :1:7 
 ]
 "3945
-[u S625 . 1 `S616 1 . 1 0 ]
-[v _RC1STAbits RC1STAbits `VES625  1 e 1 @413 ]
+[u S623 . 1 `S614 1 . 1 0 ]
+[v _RC1STAbits RC1STAbits `VES623  1 e 1 @413 ]
 "4099
 [v _TX1STA TX1STA `VEuc  1 e 1 @414 ]
-[s S595 . 1 `uc 1 TX9D 1 0 :1:0 
+[s S593 . 1 `uc 1 TX9D 1 0 :1:0 
 `uc 1 TRMT 1 0 :1:1 
 `uc 1 BRGH 1 0 :1:2 
 `uc 1 SENDB 1 0 :1:3 
@@ -435,8 +435,8 @@ TMR2_PWM4_OUT 14
 `uc 1 CSRC 1 0 :1:7 
 ]
 "4125
-[u S604 . 1 `S595 1 . 1 0 ]
-[v _TX1STAbits TX1STAbits `VES604  1 e 1 @414 ]
+[u S602 . 1 `S593 1 . 1 0 ]
+[v _TX1STAbits TX1STAbits `VES602  1 e 1 @414 ]
 "4279
 [v _BAUD1CON BAUD1CON `VEuc  1 e 1 @415 ]
 "4525
@@ -451,13 +451,13 @@ TMR2_PWM4_OUT 14
 [v _ODCONB ODCONB `VEuc  1 e 1 @653 ]
 "6174
 [v _ODCONC ODCONC `VEuc  1 e 1 @654 ]
-[s S474 . 1 `uc 1 CCP1TSEL 1 0 :2:0 
+[s S472 . 1 `uc 1 CCP1TSEL 1 0 :2:0 
 `uc 1 CCP2TSEL 1 0 :2:2 
 `uc 1 P3TSEL 1 0 :2:4 
 `uc 1 P4TSEL 1 0 :2:6 
 ]
 "6743
-[s S479 . 1 `uc 1 CCP1TSEL0 1 0 :1:0 
+[s S477 . 1 `uc 1 CCP1TSEL0 1 0 :1:0 
 `uc 1 CCP1TSEL1 1 0 :1:1 
 `uc 1 CCP2TSEL0 1 0 :1:2 
 `uc 1 CCP2TSEL1 1 0 :1:3 
@@ -466,8 +466,8 @@ TMR2_PWM4_OUT 14
 `uc 1 P4TSEL0 1 0 :1:6 
 `uc 1 P4TSEL1 1 0 :1:7 
 ]
-[u S488 . 1 `S474 1 . 1 0 `S479 1 . 1 0 ]
-[v _CCPTMRSbits CCPTMRSbits `VES488  1 e 1 @670 ]
+[u S486 . 1 `S472 1 . 1 0 `S477 1 . 1 0 ]
+[v _CCPTMRSbits CCPTMRSbits `VES486  1 e 1 @670 ]
 "6808
 [v _SLRCONA SLRCONA `VEuc  1 e 1 @780 ]
 "6853
@@ -480,7 +480,7 @@ TMR2_PWM4_OUT 14
 [v _INLVLB INLVLB `VEuc  1 e 1 @909 ]
 "7043
 [v _INLVLC INLVLC `VEuc  1 e 1 @910 ]
-[s S792 . 1 `uc 1 IOCAP0 1 0 :1:0 
+[s S790 . 1 `uc 1 IOCAP0 1 0 :1:0 
 `uc 1 IOCAP1 1 0 :1:1 
 `uc 1 IOCAP2 1 0 :1:2 
 `uc 1 IOCAP3 1 0 :1:3 
@@ -488,11 +488,11 @@ TMR2_PWM4_OUT 14
 `uc 1 IOCAP5 1 0 :1:5 
 ]
 "7123
-[s S799 . 1 `uc 1 IOCAP 1 0 :6:0 
+[s S797 . 1 `uc 1 IOCAP 1 0 :6:0 
 ]
-[u S801 . 1 `S792 1 . 1 0 `S799 1 . 1 0 ]
-[v _IOCAPbits IOCAPbits `VES801  1 e 1 @913 ]
-[s S770 . 1 `uc 1 IOCAN0 1 0 :1:0 
+[u S799 . 1 `S790 1 . 1 0 `S797 1 . 1 0 ]
+[v _IOCAPbits IOCAPbits `VES799  1 e 1 @913 ]
+[s S768 . 1 `uc 1 IOCAN0 1 0 :1:0 
 `uc 1 IOCAN1 1 0 :1:1 
 `uc 1 IOCAN2 1 0 :1:2 
 `uc 1 IOCAN3 1 0 :1:3 
@@ -500,11 +500,11 @@ TMR2_PWM4_OUT 14
 `uc 1 IOCAN5 1 0 :1:5 
 ]
 "7181
-[s S777 . 1 `uc 1 IOCAN 1 0 :6:0 
+[s S775 . 1 `uc 1 IOCAN 1 0 :6:0 
 ]
-[u S779 . 1 `S770 1 . 1 0 `S777 1 . 1 0 ]
-[v _IOCANbits IOCANbits `VES779  1 e 1 @914 ]
-[s S748 . 1 `uc 1 IOCAF0 1 0 :1:0 
+[u S777 . 1 `S768 1 . 1 0 `S775 1 . 1 0 ]
+[v _IOCANbits IOCANbits `VES777  1 e 1 @914 ]
+[s S746 . 1 `uc 1 IOCAF0 1 0 :1:0 
 `uc 1 IOCAF1 1 0 :1:1 
 `uc 1 IOCAF2 1 0 :1:2 
 `uc 1 IOCAF3 1 0 :1:3 
@@ -512,17 +512,17 @@ TMR2_PWM4_OUT 14
 `uc 1 IOCAF5 1 0 :1:5 
 ]
 "7239
-[s S755 . 1 `uc 1 IOCAF 1 0 :6:0 
+[s S753 . 1 `uc 1 IOCAF 1 0 :6:0 
 ]
-[u S757 . 1 `S748 1 . 1 0 `S755 1 . 1 0 ]
-[v _IOCAFbits IOCAFbits `VES757  1 e 1 @915 ]
+[u S755 . 1 `S746 1 . 1 0 `S753 1 . 1 0 ]
+[v _IOCAFbits IOCAFbits `VES755  1 e 1 @915 ]
 "8693
 [v _TMR3L TMR3L `VEuc  1 e 1 @1171 ]
 "8713
 [v _TMR3H TMR3H `VEuc  1 e 1 @1172 ]
 "8733
 [v _T3CON T3CON `VEuc  1 e 1 @1173 ]
-[s S978 . 1 `uc 1 TMR3ON 1 0 :1:0 
+[s S972 . 1 `uc 1 TMR3ON 1 0 :1:0 
 `uc 1 . 1 0 :1:1 
 `uc 1 T3SYNC 1 0 :1:2 
 `uc 1 . 1 0 :1:3 
@@ -530,17 +530,17 @@ TMR2_PWM4_OUT 14
 `uc 1 TMR3CS 1 0 :2:6 
 ]
 "8755
-[s S985 . 1 `uc 1 . 1 0 :4:0 
+[s S979 . 1 `uc 1 . 1 0 :4:0 
 `uc 1 T3CKPS0 1 0 :1:4 
 `uc 1 T3CKPS1 1 0 :1:5 
 `uc 1 TMR3CS0 1 0 :1:6 
 `uc 1 TMR3CS1 1 0 :1:7 
 ]
-[u S991 . 1 `S978 1 . 1 0 `S985 1 . 1 0 ]
-[v _T3CONbits T3CONbits `VES991  1 e 1 @1173 ]
+[u S985 . 1 `S972 1 . 1 0 `S979 1 . 1 0 ]
+[v _T3CONbits T3CONbits `VES985  1 e 1 @1173 ]
 "8800
 [v _T3GCON T3GCON `VEuc  1 e 1 @1174 ]
-[s S1008 . 1 `uc 1 T3GSS 1 0 :2:0 
+[s S1002 . 1 `uc 1 T3GSS 1 0 :2:0 
 `uc 1 T3GVAL 1 0 :1:2 
 `uc 1 T3GGO_nDONE 1 0 :1:3 
 `uc 1 T3GSPM 1 0 :1:4 
@@ -549,11 +549,11 @@ TMR2_PWM4_OUT 14
 `uc 1 TMR3GE 1 0 :1:7 
 ]
 "8820
-[s S1016 . 1 `uc 1 T3GSS0 1 0 :1:0 
+[s S1010 . 1 `uc 1 T3GSS0 1 0 :1:0 
 `uc 1 T3GSS1 1 0 :1:1 
 ]
-[u S1019 . 1 `S1008 1 . 1 0 `S1016 1 . 1 0 ]
-[v _T3GCONbits T3GCONbits `VES1019  1 e 1 @1174 ]
+[u S1013 . 1 `S1002 1 . 1 0 `S1010 1 . 1 0 ]
+[v _T3GCONbits T3GCONbits `VES1013  1 e 1 @1174 ]
 "11849
 [v _PWM3DCL PWM3DCL `VEuc  1 e 1 @1559 ]
 "11915
@@ -582,14 +582,14 @@ TMR2_PWM4_OUT 14
 [v _dbuf dbuf `[32]uc  1 s 32 dbuf ]
 "69
 [v _nout nout `i  1 s 2 nout ]
-[s S537 . 1 `uc 1 perr 1 0 :1:0 
+[s S535 . 1 `uc 1 perr 1 0 :1:0 
 `uc 1 ferr 1 0 :1:1 
 `uc 1 oerr 1 0 :1:2 
 `uc 1 reserved 1 0 :5:3 
 ]
 "52 C:\Users\johns\MPLABXProjects\ros2_motor_driver.X\mcc_generated_files/eusart.c
-[u S542 . 1 `S537 1 . 1 0 `uc 1 status 1 0 ]
-[v _eusartRxLastError eusartRxLastError `VES542  1 e 1 0 ]
+[u S540 . 1 `S535 1 . 1 0 `uc 1 status 1 0 ]
+[v _eusartRxLastError eusartRxLastError `VES540  1 e 1 0 ]
 "58
 [v _EUSART_FramingErrorHandler EUSART_FramingErrorHandler `*.37(v  1 e 2 0 ]
 "59
@@ -619,7 +619,7 @@ TMR2_PWM4_OUT 14
 [v _UART_CommandProcess UART_CommandProcess `(v  1 e 1 0 ]
 {
 "29
-[v UART_CommandProcess@c c `uc  1 a 1 35 ]
+[v UART_CommandProcess@c c `uc  1 a 1 6 ]
 "46
 } 0
 "141 C:\Users\johns\MPLABXProjects\ros2_motor_driver.X\mcc_generated_files/eusart.c
@@ -637,23 +637,23 @@ TMR2_PWM4_OUT 14
 {
 [v executeCommand@cmd cmd `*.5uc  1 a 1 wreg ]
 "139
-[v executeCommand@v v `i  1 a 2 31 ]
+[v executeCommand@v v `i  1 a 2 16 ]
 "133
-[v executeCommand@pwm_nums pwm_nums `[4]us  1 a 8 15 ]
+[v executeCommand@pwm_nums pwm_nums `[4]us  1 a 8 0 ]
 "135
-[v executeCommand@count count `i  1 a 2 28 ]
+[v executeCommand@count count `i  1 a 2 13 ]
 "134
-[v executeCommand@token token `*.5uc  1 a 1 30 ]
+[v executeCommand@token token `*.5uc  1 a 1 15 ]
 "76
-[v executeCommand@rpm rpm `i  1 a 2 26 ]
+[v executeCommand@rpm rpm `i  1 a 2 11 ]
 "75
-[v executeCommand@p p `*.5uc  1 a 1 23 ]
+[v executeCommand@p p `*.5uc  1 a 1 8 ]
 "66
-[v executeCommand@len len `ui  1 a 2 24 ]
+[v executeCommand@len len `ui  1 a 2 9 ]
 "63
 [v executeCommand@cmd cmd `*.5uc  1 a 1 wreg ]
 "66
-[v executeCommand@cmd cmd `*.5uc  1 a 1 33 ]
+[v executeCommand@cmd cmd `*.5uc  1 a 1 18 ]
 "187
 } 0
 "3 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\strtok.c
@@ -661,10 +661,10 @@ TMR2_PWM4_OUT 14
 {
 [v strtok@s s `*.5uc  1 a 1 wreg ]
 [v strtok@s s `*.5uc  1 a 1 wreg ]
-[v strtok@sep sep `*.25DCuc  1 p 2 7 ]
+[v strtok@sep sep `*.25DCuc  1 p 2 0 ]
 "5
 [v strtok@p p `*.5uc  1 s 1 p ]
-[v strtok@s s `*.5uc  1 a 1 9 ]
+[v strtok@s s `*.5uc  1 a 1 5 ]
 "13
 } 0
 "3 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\strspn.c
@@ -672,12 +672,12 @@ TMR2_PWM4_OUT 14
 {
 [v strspn@s s `*.5DCuc  1 a 1 wreg ]
 "5
-[v strspn@i i `ui  1 a 2 4 ]
+[v strspn@i i `ui  1 a 2 33 ]
 "3
 [v strspn@s s `*.5DCuc  1 a 1 wreg ]
-[v strspn@c c `*.25DCuc  1 p 2 0 ]
+[v strspn@c c `*.25DCuc  1 p 2 29 ]
 "7
-[v strspn@s s `*.5DCuc  1 a 1 6 ]
+[v strspn@s s `*.5DCuc  1 a 1 35 ]
 "13
 } 0
 "3 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\strcspn.c
@@ -685,19 +685,19 @@ TMR2_PWM4_OUT 14
 {
 [v strcspn@s s `*.5DCuc  1 a 1 wreg ]
 "5
-[v strcspn@i i `ui  1 a 2 4 ]
+[v strcspn@i i `ui  1 a 2 33 ]
 "3
 [v strcspn@s s `*.5DCuc  1 a 1 wreg ]
-[v strcspn@c c `*.25DCuc  1 p 2 0 ]
+[v strcspn@c c `*.25DCuc  1 p 2 29 ]
 "7
-[v strcspn@s s `*.5DCuc  1 a 1 6 ]
+[v strcspn@s s `*.5DCuc  1 a 1 35 ]
 "13
 } 0
 "3 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\strchr.c
 [v _strchr strchr `(*.25uc  1 e 1 0 ]
 {
-[v strchr@s s `*.25DCuc  1 p 2 2 ]
-[v strchr@c c `i  1 p 2 4 ]
+[v strchr@s s `*.25DCuc  1 p 2 22 ]
+[v strchr@c c `i  1 p 2 24 ]
 "11
 } 0
 "3 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\strncmp.c
@@ -705,14 +705,14 @@ TMR2_PWM4_OUT 14
 {
 [v strncmp@_l _l `*.5DCuc  1 a 1 wreg ]
 "5
-[v strncmp@r r `*.25DCuc  1 a 2 1 ]
-[v strncmp@l l `*.5DCuc  1 a 1 3 ]
+[v strncmp@r r `*.25DCuc  1 a 2 28 ]
+[v strncmp@l l `*.5DCuc  1 a 1 30 ]
 "3
 [v strncmp@_l _l `*.5DCuc  1 a 1 wreg ]
-[v strncmp@_r _r `*.25DCuc  1 p 2 2 ]
-[v strncmp@n n `ui  1 p 2 4 ]
+[v strncmp@_r _r `*.25DCuc  1 p 2 22 ]
+[v strncmp@n n `ui  1 p 2 24 ]
 "5
-[v strncmp@_l _l `*.5DCuc  1 a 1 0 ]
+[v strncmp@_l _l `*.5DCuc  1 a 1 27 ]
 "9
 } 0
 "3 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\strcmp.c
@@ -720,8 +720,8 @@ TMR2_PWM4_OUT 14
 {
 [v strcmp@l l `*.5DCuc  1 a 1 wreg ]
 [v strcmp@l l `*.5DCuc  1 a 1 wreg ]
-[v strcmp@r r `*.25DCuc  1 p 2 2 ]
-[v strcmp@l l `*.5DCuc  1 a 1 5 ]
+[v strcmp@r r `*.25DCuc  1 p 2 22 ]
+[v strcmp@l l `*.5DCuc  1 a 1 25 ]
 "7
 } 0
 "4 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\atoi.c
@@ -729,34 +729,34 @@ TMR2_PWM4_OUT 14
 {
 [v atoi@s s `*.5DCuc  1 a 1 wreg ]
 "6
-[v atoi@n n `i  1 a 2 11 ]
-[v atoi@neg neg `i  1 a 2 4 ]
+[v atoi@n n `i  1 a 2 7 ]
+[v atoi@neg neg `i  1 a 2 0 ]
 "4
 [v atoi@s s `*.5DCuc  1 a 1 wreg ]
 "6
-[v atoi@s s `*.5DCuc  1 a 1 13 ]
+[v atoi@s s `*.5DCuc  1 a 1 9 ]
 "16
 } 0
 "5 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\isspace.c
 [v _isspace isspace `(i  1 e 2 0 ]
 {
-[v isspace@c c `i  1 p 2 2 ]
+[v isspace@c c `i  1 p 2 22 ]
 "8
 } 0
 "5 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\isdigit.c
 [v _isdigit isdigit `(i  1 e 2 0 ]
 {
-[v isdigit@c c `i  1 p 2 2 ]
+[v isdigit@c c `i  1 p 2 22 ]
 "8
 } 0
 "15 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\Umul16.c
 [v ___wmul __wmul `(ui  1 e 2 0 ]
 {
 "17
-[v ___wmul@product product `ui  1 a 2 6 ]
+[v ___wmul@product product `ui  1 a 2 26 ]
 "15
-[v ___wmul@multiplier multiplier `ui  1 p 2 2 ]
-[v ___wmul@multiplicand multiplicand `ui  1 p 2 4 ]
+[v ___wmul@multiplier multiplier `ui  1 p 2 22 ]
+[v ___wmul@multiplicand multiplicand `ui  1 p 2 24 ]
 "53
 } 0
 "32 C:\Users\johns\MPLABXProjects\ros2_motor_driver.X\motor_ctrl.c
@@ -767,120 +767,120 @@ TMR2_PWM4_OUT 14
 "8
 [v _Motor_Start Motor_Start `(v  1 e 1 0 ]
 {
-[v Motor_Start@target_rpm target_rpm `s  1 p 2 10 ]
+[v Motor_Start@target_rpm target_rpm `s  1 p 2 0 ]
 "30
 } 0
 "5 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\printf.c
 [v _printf printf `(i  1 e 2 0 ]
 {
 "8
-[v printf@ap ap `[1]*.4v  1 a 1 9 ]
+[v printf@ap ap `[1]*.4v  1 a 1 79 ]
 "5
-[v printf@fmt fmt `*.25DCuc  1 p 2 3 ]
+[v printf@fmt fmt `*.25DCuc  1 p 2 72 ]
 "13
 } 0
 "1390 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\doprnt.c
 [v _vfprintf vfprintf `(i  1 e 2 0 ]
 {
-[s S1628 _IO_FILE 0 ]
-[v vfprintf@fp fp `*.1S1628  1 a 1 wreg ]
+[s S1619 _IO_FILE 0 ]
+[v vfprintf@fp fp `*.1S1619  1 a 1 wreg ]
 "1393
-[v vfprintf@cfmt cfmt `*.25uc  1 a 2 1 ]
+[v vfprintf@cfmt cfmt `*.25uc  1 a 2 70 ]
 "1390
-[v vfprintf@fp fp `*.1S1628  1 a 1 wreg ]
-[v vfprintf@fmt fmt `*.25DCuc  1 p 2 74 ]
-[v vfprintf@ap ap `*.4*.4v  1 p 1 76 ]
+[v vfprintf@fp fp `*.1S1619  1 a 1 wreg ]
+[v vfprintf@fmt fmt `*.25DCuc  1 p 2 64 ]
+[v vfprintf@ap ap `*.4*.4v  1 p 1 66 ]
 "1395
 "1390
-[v vfprintf@fp fp `*.1S1628  1 a 1 0 ]
+[v vfprintf@fp fp `*.1S1619  1 a 1 69 ]
 "1404
 } 0
 "692
 [v _vfpfcnvrt vfpfcnvrt `(i  1 s 2 vfpfcnvrt ]
 {
-[s S1628 _IO_FILE 0 ]
-[v vfpfcnvrt@fp fp `*.1S1628  1 a 1 wreg ]
+[s S1619 _IO_FILE 0 ]
+[v vfpfcnvrt@fp fp `*.1S1619  1 a 1 wreg ]
 "696
-[v vfpfcnvrt@ll ll `o  1 a 8 63 ]
+[v vfpfcnvrt@ll ll `o  1 a 8 53 ]
 "694
-[v vfpfcnvrt@cp cp `*.26uc  1 a 2 71 ]
+[v vfpfcnvrt@cp cp `*.26uc  1 a 2 61 ]
 "692
-[v vfpfcnvrt@fp fp `*.1S1628  1 a 1 wreg ]
-[v vfpfcnvrt@fmt fmt `*.4*.25uc  1 p 1 56 ]
-[v vfpfcnvrt@ap ap `*.4*.4v  1 p 1 57 ]
+[v vfpfcnvrt@fp fp `*.1S1619  1 a 1 wreg ]
+[v vfpfcnvrt@fmt fmt `*.4*.25uc  1 p 1 46 ]
+[v vfpfcnvrt@ap ap `*.4*.4v  1 p 1 47 ]
 "702
 "692
-[v vfpfcnvrt@fp fp `*.1S1628  1 a 1 73 ]
+[v vfpfcnvrt@fp fp `*.1S1619  1 a 1 63 ]
 "1387
 } 0
 "568
 [v _stoa stoa `(i  1 s 2 stoa ]
 {
-[s S1628 _IO_FILE 0 ]
-[v stoa@fp fp `*.1S1628  1 a 1 wreg ]
+[s S1619 _IO_FILE 0 ]
+[v stoa@fp fp `*.1S1619  1 a 1 wreg ]
 "570
-[v stoa@nuls nuls `[7]uc  1 a 7 7 ]
+[v stoa@nuls nuls `[7]uc  1 a 7 3 ]
 "571
-[v stoa@l l `i  1 a 2 23 ]
-[v stoa@p p `i  1 a 2 21 ]
+[v stoa@l l `i  1 a 2 19 ]
+[v stoa@p p `i  1 a 2 17 ]
 "570
-[v stoa@cp cp `*.26uc  1 a 2 19 ]
+[v stoa@cp cp `*.26uc  1 a 2 15 ]
 "571
-[v stoa@w w `i  1 a 2 16 ]
-[v stoa@i i `i  1 a 2 14 ]
+[v stoa@w w `i  1 a 2 12 ]
+[v stoa@i i `i  1 a 2 10 ]
 "568
-[v stoa@fp fp `*.1S1628  1 a 1 wreg ]
-[v stoa@s s `*.26uc  1 p 2 5 ]
+[v stoa@fp fp `*.1S1619  1 a 1 wreg ]
+[v stoa@s s `*.26uc  1 p 2 32 ]
 "570
 [v stoa@F1141 F1141 `[7]uc  1 s 7 F1141 ]
 "568
-[v stoa@fp fp `*.1S1628  1 a 1 18 ]
+[v stoa@fp fp `*.1S1619  1 a 1 14 ]
 "611
 } 0
 "287
 [v _dtoa dtoa `(i  1 s 2 dtoa ]
 {
-[s S1628 _IO_FILE 0 ]
-[v dtoa@fp fp `*.1S1628  1 a 1 wreg ]
+[s S1619 _IO_FILE 0 ]
+[v dtoa@fp fp `*.1S1619  1 a 1 wreg ]
 "290
-[v dtoa@n n `o  1 a 8 46 ]
+[v dtoa@n n `o  1 a 8 36 ]
 "289
-[v dtoa@i i `i  1 a 2 54 ]
-[v dtoa@s s `i  1 a 2 44 ]
-[v dtoa@w w `i  1 a 2 42 ]
-[v dtoa@p p `i  1 a 2 40 ]
+[v dtoa@i i `i  1 a 2 44 ]
+[v dtoa@s s `i  1 a 2 34 ]
+[v dtoa@w w `i  1 a 2 32 ]
+[v dtoa@p p `i  1 a 2 30 ]
 "287
-[v dtoa@fp fp `*.1S1628  1 a 1 wreg ]
-[v dtoa@d d `o  1 p 8 26 ]
+[v dtoa@fp fp `*.1S1619  1 a 1 wreg ]
+[v dtoa@d d `o  1 p 8 16 ]
 "293
 "287
-[v dtoa@fp fp `*.1S1628  1 a 1 39 ]
+[v dtoa@fp fp `*.1S1619  1 a 1 29 ]
 "328
 } 0
 "72
 [v _pad pad `(i  1 s 2 pad ]
 {
-[s S1628 _IO_FILE 0 ]
-[v pad@fp fp `*.1S1628  1 a 1 wreg ]
+[s S1619 _IO_FILE 0 ]
+[v pad@fp fp `*.1S1619  1 a 1 wreg ]
 "74
-[v pad@w w `i  1 a 2 16 ]
-[v pad@i i `i  1 a 2 14 ]
+[v pad@w w `i  1 a 2 10 ]
+[v pad@i i `i  1 a 2 8 ]
 "72
-[v pad@fp fp `*.1S1628  1 a 1 wreg ]
-[v pad@buf buf `*.5uc  1 p 1 10 ]
-[v pad@p p `i  1 p 2 11 ]
+[v pad@fp fp `*.1S1619  1 a 1 wreg ]
+[v pad@buf buf `*.5uc  1 p 1 4 ]
+[v pad@p p `i  1 p 2 5 ]
 "77
 "72
-[v pad@fp fp `*.1S1628  1 a 1 18 ]
+[v pad@fp fp `*.1S1619  1 a 1 12 ]
 "95
 } 0
 "5 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\strlen.c
 [v _strlen strlen `(ui  1 e 2 0 ]
 {
 "7
-[v strlen@a a `*.26DCuc  1 a 2 5 ]
+[v strlen@a a `*.26DCuc  1 a 2 25 ]
 "5
-[v strlen@s s `*.26DCuc  1 p 2 2 ]
+[v strlen@s s `*.26DCuc  1 p 2 22 ]
 "12
 } 0
 "8 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\nf_fputs.c
@@ -888,23 +888,23 @@ TMR2_PWM4_OUT 14
 {
 [v fputs@s s `*.5DCuc  1 a 1 wreg ]
 "11
-[v fputs@i i `i  1 a 2 7 ]
+[v fputs@i i `i  1 a 2 1 ]
 "10
-[v fputs@c c `uc  1 a 1 6 ]
+[v fputs@c c `uc  1 a 1 0 ]
 "8
 [v fputs@s s `*.5DCuc  1 a 1 wreg ]
-[s S1612 _IO_FILE 5 `*.1uc 1 buffer 1 0 `i 1 count 2 1 `i 1 limit 2 3 ]
-[v fputs@fp fp `*.1S1612  1 p 1 5 ]
+[s S1603 _IO_FILE 5 `*.1uc 1 buffer 1 0 `i 1 count 2 1 `i 1 limit 2 3 ]
+[v fputs@fp fp `*.1S1603  1 p 1 32 ]
 "13
-[v fputs@s s `*.5DCuc  1 a 1 9 ]
+[v fputs@s s `*.5DCuc  1 a 1 3 ]
 "19
 } 0
 "8 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\nf_fputc.c
 [v _fputc fputc `(i  1 e 2 0 ]
 {
-[v fputc@c c `i  1 p 2 4 ]
-[s S1612 _IO_FILE 5 `*.1uc 1 buffer 1 0 `i 1 count 2 1 `i 1 limit 2 3 ]
-[v fputc@fp fp `*.1S1612  1 p 1 6 ]
+[v fputc@c c `i  1 p 2 24 ]
+[s S1603 _IO_FILE 5 `*.1uc 1 buffer 1 0 `i 1 count 2 1 `i 1 limit 2 3 ]
+[v fputc@fp fp `*.1S1603  1 p 1 26 ]
 "24
 } 0
 "146 C:\Users\johns\MPLABXProjects\ros2_motor_driver.X\mcc_generated_files/eusart.c
@@ -913,7 +913,7 @@ TMR2_PWM4_OUT 14
 [v putch@txData txData `uc  1 a 1 wreg ]
 [v putch@txData txData `uc  1 a 1 wreg ]
 "148
-[v putch@txData txData `uc  1 a 1 3 ]
+[v putch@txData txData `uc  1 a 1 23 ]
 "149
 } 0
 "132
@@ -921,21 +921,21 @@ TMR2_PWM4_OUT 14
 {
 [v EUSART_Write@txData txData `uc  1 a 1 wreg ]
 [v EUSART_Write@txData txData `uc  1 a 1 wreg ]
-[v EUSART_Write@txData txData `uc  1 a 1 2 ]
+[v EUSART_Write@txData txData `uc  1 a 1 22 ]
 "139
 } 0
 "1 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\abs.c
 [v _abs abs `(i  1 e 2 0 ]
 {
-[v abs@a a `i  1 p 2 5 ]
+[v abs@a a `i  1 p 2 25 ]
 "4
 } 0
 "7 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\aomod.c
 [v ___aomod __aomod `(o  1 e 8 0 ]
 {
 "12
-[v ___aomod@sign sign `uc  1 a 1 4 ]
-[v ___aomod@counter counter `uc  1 a 1 3 ]
+[v ___aomod@sign sign `uc  1 a 1 24 ]
+[v ___aomod@counter counter `uc  1 a 1 23 ]
 "7
 [v ___aomod@divisor divisor `o  1 p 8 0 ]
 [v ___aomod@dividend dividend `o  1 p 8 8 ]
@@ -945,10 +945,10 @@ TMR2_PWM4_OUT 14
 [v ___aodiv __aodiv `(o  1 e 8 0 ]
 {
 "12
-[v ___aodiv@quotient quotient `o  1 a 8 18 ]
+[v ___aodiv@quotient quotient `o  1 a 8 25 ]
 "13
-[v ___aodiv@sign sign `uc  1 a 1 17 ]
-[v ___aodiv@counter counter `uc  1 a 1 16 ]
+[v ___aodiv@sign sign `uc  1 a 1 24 ]
+[v ___aodiv@counter counter `uc  1 a 1 23 ]
 "7
 [v ___aodiv@divisor divisor `o  1 p 8 0 ]
 [v ___aodiv@dividend dividend `o  1 p 8 8 ]
@@ -957,13 +957,13 @@ TMR2_PWM4_OUT 14
 "74 C:\Users\johns\MPLABXProjects\ros2_motor_driver.X\mcc_generated_files/pwm4.c
 [v _PWM4_LoadDutyValue PWM4_LoadDutyValue `(v  1 e 1 0 ]
 {
-[v PWM4_LoadDutyValue@dutyValue dutyValue `us  1 p 2 2 ]
+[v PWM4_LoadDutyValue@dutyValue dutyValue `us  1 p 2 22 ]
 "81
 } 0
 "74 C:\Users\johns\MPLABXProjects\ros2_motor_driver.X\mcc_generated_files/pwm3.c
 [v _PWM3_LoadDutyValue PWM3_LoadDutyValue `(v  1 e 1 0 ]
 {
-[v PWM3_LoadDutyValue@dutyValue dutyValue `us  1 p 2 2 ]
+[v PWM3_LoadDutyValue@dutyValue dutyValue `us  1 p 2 22 ]
 "81
 } 0
 "50 C:\Users\johns\MPLABXProjects\ros2_motor_driver.X\mcc_generated_files/mcc.c
@@ -979,7 +979,7 @@ TMR2_PWM4_OUT 14
 "171
 [v _TMR3_SetInterruptHandler TMR3_SetInterruptHandler `(v  1 e 1 0 ]
 {
-[v TMR3_SetInterruptHandler@InterruptHandler InterruptHandler `*.37(v  1 p 2 2 ]
+[v TMR3_SetInterruptHandler@InterruptHandler InterruptHandler `*.37(v  1 p 2 22 ]
 "173
 } 0
 "64 C:\Users\johns\MPLABXProjects\ros2_motor_driver.X\mcc_generated_files/tmr2.c
@@ -990,7 +990,7 @@ TMR2_PWM4_OUT 14
 "178
 [v _TMR2_SetInterruptHandler TMR2_SetInterruptHandler `(v  1 e 1 0 ]
 {
-[v TMR2_SetInterruptHandler@InterruptHandler InterruptHandler `*.37(v  1 p 2 2 ]
+[v TMR2_SetInterruptHandler@InterruptHandler InterruptHandler `*.37(v  1 p 2 22 ]
 "180
 } 0
 "58 C:\Users\johns\MPLABXProjects\ros2_motor_driver.X\mcc_generated_files/pwm4.c
@@ -1011,7 +1011,7 @@ TMR2_PWM4_OUT 14
 "170
 [v _IOCAF0_SetInterruptHandler IOCAF0_SetInterruptHandler `(v  1 e 1 0 ]
 {
-[v IOCAF0_SetInterruptHandler@InterruptHandler InterruptHandler `*.37(v  1 p 2 2 ]
+[v IOCAF0_SetInterruptHandler@InterruptHandler InterruptHandler `*.37(v  1 p 2 22 ]
 "172
 } 0
 "61 C:\Users\johns\MPLABXProjects\ros2_motor_driver.X\mcc_generated_files/mcc.c
@@ -1027,19 +1027,19 @@ TMR2_PWM4_OUT 14
 "170
 [v _EUSART_SetOverrunErrorHandler EUSART_SetOverrunErrorHandler `(v  1 e 1 0 ]
 {
-[v EUSART_SetOverrunErrorHandler@interruptHandler interruptHandler `*.37(v  1 p 2 2 ]
+[v EUSART_SetOverrunErrorHandler@interruptHandler interruptHandler `*.37(v  1 p 2 22 ]
 "172
 } 0
 "166
 [v _EUSART_SetFramingErrorHandler EUSART_SetFramingErrorHandler `(v  1 e 1 0 ]
 {
-[v EUSART_SetFramingErrorHandler@interruptHandler interruptHandler `*.37(v  1 p 2 2 ]
+[v EUSART_SetFramingErrorHandler@interruptHandler interruptHandler `*.37(v  1 p 2 22 ]
 "168
 } 0
 "174
 [v _EUSART_SetErrorHandler EUSART_SetErrorHandler `(v  1 e 1 0 ]
 {
-[v EUSART_SetErrorHandler@interruptHandler interruptHandler `*.37(v  1 p 2 2 ]
+[v EUSART_SetErrorHandler@interruptHandler interruptHandler `*.37(v  1 p 2 22 ]
 "176
 } 0
 "52 C:\Users\johns\MPLABXProjects\ros2_motor_driver.X\mcc_generated_files/interrupt_manager.c
@@ -1061,7 +1061,34 @@ TMR2_PWM4_OUT 14
 "175
 [v _TMR3_DefaultInterruptHandler TMR3_DefaultInterruptHandler `(v  1 e 1 0 ]
 {
+"179
+[v TMR3_DefaultInterruptHandler@delta delta `l  1 a 4 18 ]
 "178
+[v TMR3_DefaultInterruptHandler@last_ticks last_ticks `l  1 s 4 last_ticks ]
+"190
+} 0
+"15 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\Umul32.c
+[v ___lmul __lmul `(ul  1 e 4 0 ]
+{
+"17
+[v ___lmul@product product `ul  1 a 4 8 ]
+"15
+[v ___lmul@multiplier multiplier `ul  1 p 4 0 ]
+[v ___lmul@multiplicand multiplicand `ul  1 p 4 4 ]
+"129
+} 0
+"5 C:\Program Files\Microchip\xc8\v2.30\pic\sources\c99\common\aldiv.c
+[v ___aldiv __aldiv `(l  1 e 4 0 ]
+{
+"10
+[v ___aldiv@quotient quotient `l  1 a 4 10 ]
+"11
+[v ___aldiv@sign sign `uc  1 a 1 9 ]
+[v ___aldiv@counter counter `uc  1 a 1 8 ]
+"5
+[v ___aldiv@divisor divisor `l  1 p 4 0 ]
+[v ___aldiv@dividend dividend `l  1 p 4 4 ]
+"41
 } 0
 "165 C:\Users\johns\MPLABXProjects\ros2_motor_driver.X\mcc_generated_files/tmr2.c
 [v _TMR2_ISR TMR2_ISR `(v  1 e 1 0 ]
