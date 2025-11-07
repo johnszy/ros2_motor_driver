@@ -1,3 +1,5 @@
+
+# Ignore the directories
 build/
 debug/
 dist/
