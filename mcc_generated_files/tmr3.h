@@ -53,6 +53,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include "../motor_ctrl.h"
 
 #ifdef __cplusplus  // Provide C++ Compatibility
 

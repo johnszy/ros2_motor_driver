@@ -1,5 +1,5 @@
 Version 4.0 HI-TECH Software Intermediate Code
-[v F9655 `(v ~T0 @X0 0 tf ]
+[v F9673 `(v ~T0 @X0 0 tf ]
 "8800 C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h
 [; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h: 8800: extern volatile unsigned char T3GCON __attribute__((address(0x496)));
 [v _T3GCON `Vuc ~T0 @X0 0 e@1174 ]
@@ -31,12 +31,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 "2013
 [; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h: 2013: extern volatile PIE5bits_t PIE5bits __attribute__((address(0x094)));
 [v _PIE5bits `VS107 ~T0 @X0 0 e@148 ]
-[v F9647 `(v ~T0 @X0 0 tf ]
-"387 mcc_generated_files/tmr3.h
-[; ;mcc_generated_files/tmr3.h: 387:  void TMR3_SetInterruptHandler(void (* InterruptHandler)(void));
-[v _TMR3_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F9647 ]
-"423
-[; ;mcc_generated_files/tmr3.h: 423: void TMR3_DefaultInterruptHandler(void);
+[v F9665 `(v ~T0 @X0 0 tf ]
+"388 mcc_generated_files/tmr3.h
+[; ;mcc_generated_files/tmr3.h: 388:  void TMR3_SetInterruptHandler(void (* InterruptHandler)(void));
+[v _TMR3_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F9665 ]
+"424
+[; ;mcc_generated_files/tmr3.h: 424: void TMR3_DefaultInterruptHandler(void);
 [v _TMR3_DefaultInterruptHandler `(v ~T0 @X0 0 ef ]
 "8733 C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h
 [; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h: 8733: extern volatile unsigned char T3CON __attribute__((address(0x495)));
@@ -71,12 +71,28 @@ Version 4.0 HI-TECH Software Intermediate Code
 "8820
 [; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h: 8820: extern volatile T3GCONbits_t T3GCONbits __attribute__((address(0x496)));
 [v _T3GCONbits `VS445 ~T0 @X0 0 e@1174 ]
-[v F9670 `(v ~T0 @X0 0 tf ]
-[v F9672 `(v ~T0 @X0 0 tf ]
-[v F9674 `(v ~T0 @X0 0 tf ]
-"63 mcc_generated_files/tmr3.h
-[; ;mcc_generated_files/tmr3.h: 63: extern volatile long en0;
+[v F9688 `(v ~T0 @X0 0 tf ]
+[v F9690 `(v ~T0 @X0 0 tf ]
+[v F9692 `(v ~T0 @X0 0 tf ]
+"64 mcc_generated_files/tmr3.h
+[; ;mcc_generated_files/tmr3.h: 64: extern volatile long en0;
 [v _en0 `Vl ~T0 @X0 0 e ]
+"15 mcc_generated_files/../motor_ctrl.h
+[; ;mcc_generated_files/../motor_ctrl.h: 15: typedef struct {
+[s S1216 `f 1 `f 1 `f 1 `f 1 `f 1 ]
+[n S1216 . kp ki kd prev_error integral ]
+"28
+[; ;mcc_generated_files/../motor_ctrl.h: 28: int16_t PID_Compute(pid_t *pid, int16_t target, int16_t measured);
+[v _PID_Compute `(s ~T0 @X0 0 ef3`*S1216`s`s ]
+"24
+[; ;mcc_generated_files/../motor_ctrl.h: 24: extern pid_t speed_pid;
+[v _speed_pid `S1216 ~T0 @X0 0 e ]
+"25
+[; ;mcc_generated_files/../motor_ctrl.h: 25: extern int16_t target_rpm;
+[v _target_rpm `s ~T0 @X0 0 e ]
+"29
+[; ;mcc_generated_files/../motor_ctrl.h: 29: void Motor_ApplyPWM(int16_t pwm);
+[v _Motor_ApplyPWM `(v ~T0 @X0 0 ef1`s ]
 "54 C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h
 [; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h: 54: __asm("INDF0 equ 00h");
 [; <" INDF0 equ 00h ;# ">
@@ -1403,8 +1419,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "27883
 [; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic16f1619.h: 27883: __asm("TOSH equ 0FEFh");
 [; <" TOSH equ 0FEFh ;# ">
-"64 mcc_generated_files/tmr3.h
-[; ;mcc_generated_files/tmr3.h: 64: volatile int wheel_speed_rpm = 0;
+"65 mcc_generated_files/tmr3.h
+[; ;mcc_generated_files/tmr3.h: 65: volatile int wheel_speed_rpm = 0;
 [v _wheel_speed_rpm `Vi ~T0 @X0 1 e ]
 [i _wheel_speed_rpm
 -> 0 `i
@@ -1414,7 +1430,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _timer3ReloadVal `Vus ~T0 @X0 1 e ]
 "58
 [; ;mcc_generated_files/tmr3.c: 58: void (*TMR3_InterruptHandler)(void);
-[v _TMR3_InterruptHandler `*F9655 ~T0 @X0 1 e ]
+[v _TMR3_InterruptHandler `*F9673 ~T0 @X0 1 e ]
 "64
 [; ;mcc_generated_files/tmr3.c: 64: void TMR3_Initialize(void)
 [v _TMR3_Initialize `(v ~T0 @X0 1 ef ]
@@ -1449,7 +1465,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = _T3CON -> -> 49 `i `uc ]
 "91
 [; ;mcc_generated_files/tmr3.c: 91: }
-[e :UE 1216 ]
+[e :UE 1217 ]
 }
 "93
 [; ;mcc_generated_files/tmr3.c: 93: void TMR3_StartTimer(void)
@@ -1464,7 +1480,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = . . _T3CONbits 0 0 -> -> 1 `i `uc ]
 "97
 [; ;mcc_generated_files/tmr3.c: 97: }
-[e :UE 1217 ]
+[e :UE 1218 ]
 }
 "99
 [; ;mcc_generated_files/tmr3.c: 99: void TMR3_StopTimer(void)
@@ -1479,7 +1495,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = . . _T3CONbits 0 0 -> -> 0 `i `uc ]
 "103
 [; ;mcc_generated_files/tmr3.c: 103: }
-[e :UE 1218 ]
+[e :UE 1219 ]
 }
 "105
 [; ;mcc_generated_files/tmr3.c: 105: uint16_t TMR3_ReadTimer(void)
@@ -1510,10 +1526,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "117
 [; ;mcc_generated_files/tmr3.c: 117:     return readVal;
 [e ) _readVal ]
-[e $UE 1219  ]
+[e $UE 1220  ]
 "118
 [; ;mcc_generated_files/tmr3.c: 118: }
-[e :UE 1219 ]
+[e :UE 1220 ]
 }
 "120
 [; ;mcc_generated_files/tmr3.c: 120: void TMR3_WriteTimer(uint16_t timerVal)
@@ -1530,7 +1546,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [f ]
 "122
 [; ;mcc_generated_files/tmr3.c: 122:     if (T3CONbits.T3SYNC == 1)
-[e $ ! == -> . . _T3CONbits 0 2 `i -> 1 `i 1221  ]
+[e $ ! == -> . . _T3CONbits 0 2 `i -> 1 `i 1222  ]
 "123
 [; ;mcc_generated_files/tmr3.c: 123:     {
 {
@@ -1549,10 +1565,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "133
 [; ;mcc_generated_files/tmr3.c: 133:     }
 }
-[e $U 1222  ]
+[e $U 1223  ]
 "134
 [; ;mcc_generated_files/tmr3.c: 134:     else
-[e :U 1221 ]
+[e :U 1222 ]
 "135
 [; ;mcc_generated_files/tmr3.c: 135:     {
 {
@@ -1565,10 +1581,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "139
 [; ;mcc_generated_files/tmr3.c: 139:     }
 }
-[e :U 1222 ]
+[e :U 1223 ]
 "140
 [; ;mcc_generated_files/tmr3.c: 140: }
-[e :UE 1220 ]
+[e :UE 1221 ]
 }
 "142
 [; ;mcc_generated_files/tmr3.c: 142: void TMR3_Reload(void)
@@ -1583,7 +1599,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _TMR3_WriteTimer (1 _timer3ReloadVal ]
 "145
 [; ;mcc_generated_files/tmr3.c: 145: }
-[e :UE 1223 ]
+[e :UE 1224 ]
 }
 "147
 [; ;mcc_generated_files/tmr3.c: 147: void TMR3_StartSinglePulseAcquisition(void)
@@ -1598,7 +1614,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = . . _T3GCONbits 0 2 -> -> 1 `i `uc ]
 "150
 [; ;mcc_generated_files/tmr3.c: 150: }
-[e :UE 1224 ]
+[e :UE 1225 ]
 }
 "152
 [; ;mcc_generated_files/tmr3.c: 152: uint8_t TMR3_CheckGateValueStatus(void)
@@ -1611,10 +1627,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "154
 [; ;mcc_generated_files/tmr3.c: 154:     return (T3GCONbits.T3GVAL);
 [e ) . . _T3GCONbits 0 1 ]
-[e $UE 1225  ]
+[e $UE 1226  ]
 "155
 [; ;mcc_generated_files/tmr3.c: 155: }
-[e :UE 1225 ]
+[e :UE 1226 ]
 }
 "157
 [; ;mcc_generated_files/tmr3.c: 157: void TMR3_ISR(void)
@@ -1632,7 +1648,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _TMR3_WriteTimer (1 _timer3ReloadVal ]
 "164
 [; ;mcc_generated_files/tmr3.c: 164:     if(TMR3_InterruptHandler)
-[e $ ! != _TMR3_InterruptHandler -> -> 0 `i `*F9670 1227  ]
+[e $ ! != _TMR3_InterruptHandler -> -> 0 `i `*F9688 1228  ]
 "165
 [; ;mcc_generated_files/tmr3.c: 165:     {
 {
@@ -1642,24 +1658,24 @@ Version 4.0 HI-TECH Software Intermediate Code
 "167
 [; ;mcc_generated_files/tmr3.c: 167:     }
 }
-[e :U 1227 ]
+[e :U 1228 ]
 "168
 [; ;mcc_generated_files/tmr3.c: 168: }
-[e :UE 1226 ]
+[e :UE 1227 ]
 }
 "171
 [; ;mcc_generated_files/tmr3.c: 171: void TMR3_SetInterruptHandler(void (* InterruptHandler)(void)){
-[v _TMR3_SetInterruptHandler `(v ~T0 @X0 1 ef1`*F9672 ]
+[v _TMR3_SetInterruptHandler `(v ~T0 @X0 1 ef1`*F9690 ]
 {
 [e :U _TMR3_SetInterruptHandler ]
-[v _InterruptHandler `*F9674 ~T0 @X0 1 r1 ]
+[v _InterruptHandler `*F9692 ~T0 @X0 1 r1 ]
 [f ]
 "172
 [; ;mcc_generated_files/tmr3.c: 172:     TMR3_InterruptHandler = InterruptHandler;
 [e = _TMR3_InterruptHandler _InterruptHandler ]
 "173
 [; ;mcc_generated_files/tmr3.c: 173: }
-[e :UE 1228 ]
+[e :UE 1229 ]
 }
 "175
 [; ;mcc_generated_files/tmr3.c: 175: void TMR3_DefaultInterruptHandler(void){
@@ -1669,8 +1685,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [f ]
 "178
 [; ;mcc_generated_files/tmr3.c: 178:     static signed long last_ticks = 0;
-[v F9677 `l ~T0 @X0 1 s last_ticks ]
-[i F9677
+[v F9695 `l ~T0 @X0 1 s last_ticks ]
+[i F9695
 -> -> 0 `i `l
 ]
 "179
@@ -1678,14 +1694,21 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _delta `l ~T0 @X0 1 a ]
 "181
 [; ;mcc_generated_files/tmr3.c: 181:     delta = en0 - last_ticks;
-[e = _delta - _en0 F9677 ]
+[e = _delta - _en0 F9695 ]
 "182
 [; ;mcc_generated_files/tmr3.c: 182:     last_ticks = en0;
-[e = F9677 _en0 ]
+[e = F9695 _en0 ]
 "187
 [; ;mcc_generated_files/tmr3.c: 187:     wheel_speed_rpm = (delta * 50 * 60) / 210;
 [e = _wheel_speed_rpm -> / * * _delta -> -> 50 `i `l -> -> 60 `i `l -> -> 210 `i `l `i ]
+"189
+[; ;mcc_generated_files/tmr3.c: 189:     int16_t output_pwm = PID_Compute(&speed_pid, target_rpm, wheel_speed_rpm);
+[v _output_pwm `s ~T0 @X0 1 a ]
+[e = _output_pwm ( _PID_Compute (3 , , &U _speed_pid _target_rpm -> _wheel_speed_rpm `s ]
 "190
-[; ;mcc_generated_files/tmr3.c: 190: }
-[e :UE 1229 ]
+[; ;mcc_generated_files/tmr3.c: 190:     Motor_ApplyPWM(output_pwm);
+[e ( _Motor_ApplyPWM (1 _output_pwm ]
+"192
+[; ;mcc_generated_files/tmr3.c: 192: }
+[e :UE 1230 ]
 }

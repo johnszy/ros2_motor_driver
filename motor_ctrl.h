@@ -12,7 +12,22 @@
 
 #include <stdint.h>
 
-void Motor_Start(int16_t target_rpm);
+typedef struct {
+    float kp;
+    float ki;
+    float kd;
+    float prev_error;
+    float integral;
+} pid_t;
+
+// Extern lets other .c files access these variables
+extern pid_t speed_pid;
+extern int16_t target_rpm;
+//extern int16_t measured_rpm;
+
+int16_t PID_Compute(pid_t *pid, int16_t target, int16_t measured);
+void Motor_ApplyPWM(int16_t pwm);
+void Motor_Start(int16_t rpm);
 void Motor_Stop(void);
 
 

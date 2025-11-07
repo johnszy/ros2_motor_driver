@@ -256,7 +256,22 @@ typedef uint32_t uint_fast32_t;
 # 13 "./motor_ctrl.h" 2
 
 
-void Motor_Start(int16_t target_rpm);
+typedef struct {
+    float kp;
+    float ki;
+    float kd;
+    float prev_error;
+    float integral;
+} pid_t;
+
+
+extern pid_t speed_pid;
+extern int16_t target_rpm;
+
+
+int16_t PID_Compute(pid_t *pid, int16_t target, int16_t measured);
+void Motor_ApplyPWM(int16_t pwm);
+void Motor_Start(int16_t rpm);
 void Motor_Stop(void);
 # 2 "motor_ctrl.c" 2
 
@@ -17227,42 +17242,40 @@ extern void cputs(const char *);
 # 56 "./mcc_generated_files/mcc.h" 2
 
 # 1 "./mcc_generated_files/tmr3.h" 1
-# 63 "./mcc_generated_files/tmr3.h"
+# 64 "./mcc_generated_files/tmr3.h"
 extern volatile long en0;
 volatile int wheel_speed_rpm = 0;
-# 102 "./mcc_generated_files/tmr3.h"
+# 103 "./mcc_generated_files/tmr3.h"
 void TMR3_Initialize(void);
-# 131 "./mcc_generated_files/tmr3.h"
+# 132 "./mcc_generated_files/tmr3.h"
 void TMR3_StartTimer(void);
-# 163 "./mcc_generated_files/tmr3.h"
+# 164 "./mcc_generated_files/tmr3.h"
 void TMR3_StopTimer(void);
-# 198 "./mcc_generated_files/tmr3.h"
+# 199 "./mcc_generated_files/tmr3.h"
 uint16_t TMR3_ReadTimer(void);
-# 237 "./mcc_generated_files/tmr3.h"
+# 238 "./mcc_generated_files/tmr3.h"
 void TMR3_WriteTimer(uint16_t timerVal);
-# 273 "./mcc_generated_files/tmr3.h"
+# 274 "./mcc_generated_files/tmr3.h"
 void TMR3_Reload(void);
-# 312 "./mcc_generated_files/tmr3.h"
+# 313 "./mcc_generated_files/tmr3.h"
 void TMR3_StartSinglePulseAcquisition(void);
-# 351 "./mcc_generated_files/tmr3.h"
+# 352 "./mcc_generated_files/tmr3.h"
 uint8_t TMR3_CheckGateValueStatus(void);
-# 369 "./mcc_generated_files/tmr3.h"
+# 370 "./mcc_generated_files/tmr3.h"
 void TMR3_ISR(void);
-# 387 "./mcc_generated_files/tmr3.h"
+# 388 "./mcc_generated_files/tmr3.h"
  void TMR3_SetInterruptHandler(void (* InterruptHandler)(void));
-# 405 "./mcc_generated_files/tmr3.h"
+# 406 "./mcc_generated_files/tmr3.h"
 extern void (*TMR3_InterruptHandler)(void);
-# 423 "./mcc_generated_files/tmr3.h"
+# 424 "./mcc_generated_files/tmr3.h"
 void TMR3_DefaultInterruptHandler(void);
 # 57 "./mcc_generated_files/mcc.h" 2
 
 # 1 "./mcc_generated_files/tmr2.h" 1
-# 66 "./mcc_generated_files/tmr2.h"
-volatile unsigned long milli_sec = 0;
-# 80 "./mcc_generated_files/tmr2.h"
+# 79 "./mcc_generated_files/tmr2.h"
 typedef enum
 {
-# 90 "./mcc_generated_files/tmr2.h"
+# 89 "./mcc_generated_files/tmr2.h"
    TMR2_ROP_STARTS_TMRON,
 
 
@@ -17299,7 +17312,7 @@ typedef enum
 
 
    TMR2_ROP_RESETS_ERSHIGH,
-# 136 "./mcc_generated_files/tmr2.h"
+# 135 "./mcc_generated_files/tmr2.h"
    TMR2_OS_STARTS_TMRON,
 
 
@@ -17349,7 +17362,7 @@ typedef enum
 
 
    TMR2_OS_STARTS_TMRON_ERSLOW = 0x17,
-# 193 "./mcc_generated_files/tmr2.h"
+# 192 "./mcc_generated_files/tmr2.h"
    TMR2_MS_STARTS_TMRON_ERSRISINGEDGEDETECT = 0x11,
 
 
@@ -17364,7 +17377,7 @@ typedef enum
    TMR2_MS_STARTS_TMRON_ERSBOTHEDGE = 0x13
 
 } TMR2_HLT_MODE;
-# 221 "./mcc_generated_files/tmr2.h"
+# 220 "./mcc_generated_files/tmr2.h"
 typedef enum
 {
 
@@ -17430,40 +17443,34 @@ typedef enum
 
 
 } TMR2_HLT_EXT_RESET_SOURCE;
-# 327 "./mcc_generated_files/tmr2.h"
+# 326 "./mcc_generated_files/tmr2.h"
 void TMR2_Initialize(void);
-# 363 "./mcc_generated_files/tmr2.h"
+# 362 "./mcc_generated_files/tmr2.h"
 void TMR2_ModeSet(TMR2_HLT_MODE mode);
-# 398 "./mcc_generated_files/tmr2.h"
+# 397 "./mcc_generated_files/tmr2.h"
 void TMR2_ExtResetSourceSet(TMR2_HLT_EXT_RESET_SOURCE reset);
-# 427 "./mcc_generated_files/tmr2.h"
+# 426 "./mcc_generated_files/tmr2.h"
 void TMR2_Start(void);
-# 456 "./mcc_generated_files/tmr2.h"
+# 455 "./mcc_generated_files/tmr2.h"
 void TMR2_StartTimer(void);
-# 488 "./mcc_generated_files/tmr2.h"
+# 487 "./mcc_generated_files/tmr2.h"
 void TMR2_Stop(void);
-# 520 "./mcc_generated_files/tmr2.h"
+# 519 "./mcc_generated_files/tmr2.h"
 void TMR2_StopTimer(void);
-# 555 "./mcc_generated_files/tmr2.h"
+# 554 "./mcc_generated_files/tmr2.h"
 uint8_t TMR2_Counter8BitGet(void);
-# 590 "./mcc_generated_files/tmr2.h"
+# 589 "./mcc_generated_files/tmr2.h"
 uint8_t TMR2_ReadTimer(void);
-# 629 "./mcc_generated_files/tmr2.h"
+# 628 "./mcc_generated_files/tmr2.h"
 void TMR2_Counter8BitSet(uint8_t timerVal);
-# 668 "./mcc_generated_files/tmr2.h"
+# 667 "./mcc_generated_files/tmr2.h"
 void TMR2_WriteTimer(uint8_t timerVal);
-# 720 "./mcc_generated_files/tmr2.h"
+# 719 "./mcc_generated_files/tmr2.h"
 void TMR2_Period8BitSet(uint8_t periodVal);
-# 772 "./mcc_generated_files/tmr2.h"
+# 771 "./mcc_generated_files/tmr2.h"
 void TMR2_LoadPeriodRegister(uint8_t periodVal);
-# 790 "./mcc_generated_files/tmr2.h"
-void TMR2_ISR(void);
-# 808 "./mcc_generated_files/tmr2.h"
- void TMR2_SetInterruptHandler(void (* InterruptHandler)(void));
-# 826 "./mcc_generated_files/tmr2.h"
-extern void (*TMR2_InterruptHandler)(void);
-# 844 "./mcc_generated_files/tmr2.h"
-void TMR2_DefaultInterruptHandler(void);
+# 809 "./mcc_generated_files/tmr2.h"
+_Bool TMR2_HasOverflowOccured(void);
 # 58 "./mcc_generated_files/mcc.h" 2
 
 # 1 "./mcc_generated_files/pwm4.h" 1
@@ -17515,40 +17522,74 @@ void OSCILLATOR_Initialize(void);
 
 static int16_t current_rpm = 0;
 
-void Motor_Start(int16_t target_rpm)
+
+pid_t speed_pid = {
+    .kp = 4.0f,
+    .ki = 1.5f,
+    .kd = 0.05f,
+    .prev_error = 0,
+    .integral = 0
+};
+
+int16_t target_rpm = 0;
+
+
+int16_t PID_Compute(pid_t *pid, int16_t target, int16_t measured)
 {
-    current_rpm = target_rpm;
+    float error = target - measured;
 
 
+    pid->integral += error;
 
 
+    float derivative = error - pid->prev_error;
 
 
+    float output = (pid->kp * error) + (pid->ki * pid->integral) + (pid->kd * derivative);
 
-    if (current_rpm >0)
+    pid->prev_error = error;
+
+
+    if (output > 1023) output = 1023;
+    else if (output < -1023) output = -1023;
+
+    return (int16_t)output;
+}
+
+void Motor_ApplyPWM(int16_t pwm)
+{
+    if (pwm >= 0)
     {
-        PWM3_LoadDutyValue(current_rpm);
+        PWM3_LoadDutyValue(pwm);
         PWM4_LoadDutyValue(0);
     }
     else
     {
         PWM3_LoadDutyValue(0);
-        PWM4_LoadDutyValue(-current_rpm);
+        PWM4_LoadDutyValue(-pwm);
     }
-    printf("Motor_Start(): Target RPM = %d\n", current_rpm);
+}
+void Motor_Start(int16_t rpm)
+{
+    target_rpm = rpm;
+    speed_pid.prev_error = 0;
+    speed_pid.integral = 0;
+
+
+    Motor_ApplyPWM(0);
+
+    printf("Motor_Start(): Target RPM = %d\n", rpm);
     printf("\n/> ");
 }
 
 void Motor_Stop(void)
 {
-    current_rpm = 0;
+    target_rpm = 0;
+    Motor_ApplyPWM(0);
 
+    speed_pid.prev_error = 0;
+    speed_pid.integral = 0;
 
-
-
-
-    PWM3_LoadDutyValue(0);
-    PWM4_LoadDutyValue(0);
-    printf("Motor_Stop(): Motor stopped\n");
-    printf("\n/> ");
+    printf("Motor_Stop\n");
+    printf("/> ");
 }

@@ -17016,6 +17016,27 @@ typedef uint32_t uint_fast32_t;
 # 144 "C:\\Program Files\\Microchip\\xc8\\v2.30\\pic\\include\\c99\\stdint.h" 2 3
 # 55 "mcc_generated_files/tmr3.h" 2
 
+# 1 "mcc_generated_files/../motor_ctrl.h" 1
+# 15 "mcc_generated_files/../motor_ctrl.h"
+typedef struct {
+    float kp;
+    float ki;
+    float kd;
+    float prev_error;
+    float integral;
+} pid_t;
+
+
+extern pid_t speed_pid;
+extern int16_t target_rpm;
+
+
+int16_t PID_Compute(pid_t *pid, int16_t target, int16_t measured);
+void Motor_ApplyPWM(int16_t pwm);
+void Motor_Start(int16_t rpm);
+void Motor_Stop(void);
+# 56 "mcc_generated_files/tmr3.h" 2
+
 
 
 
@@ -17025,29 +17046,29 @@ typedef uint32_t uint_fast32_t;
 
 extern volatile long en0;
 volatile int wheel_speed_rpm = 0;
-# 102 "mcc_generated_files/tmr3.h"
+# 103 "mcc_generated_files/tmr3.h"
 void TMR3_Initialize(void);
-# 131 "mcc_generated_files/tmr3.h"
+# 132 "mcc_generated_files/tmr3.h"
 void TMR3_StartTimer(void);
-# 163 "mcc_generated_files/tmr3.h"
+# 164 "mcc_generated_files/tmr3.h"
 void TMR3_StopTimer(void);
-# 198 "mcc_generated_files/tmr3.h"
+# 199 "mcc_generated_files/tmr3.h"
 uint16_t TMR3_ReadTimer(void);
-# 237 "mcc_generated_files/tmr3.h"
+# 238 "mcc_generated_files/tmr3.h"
 void TMR3_WriteTimer(uint16_t timerVal);
-# 273 "mcc_generated_files/tmr3.h"
+# 274 "mcc_generated_files/tmr3.h"
 void TMR3_Reload(void);
-# 312 "mcc_generated_files/tmr3.h"
+# 313 "mcc_generated_files/tmr3.h"
 void TMR3_StartSinglePulseAcquisition(void);
-# 351 "mcc_generated_files/tmr3.h"
+# 352 "mcc_generated_files/tmr3.h"
 uint8_t TMR3_CheckGateValueStatus(void);
-# 369 "mcc_generated_files/tmr3.h"
+# 370 "mcc_generated_files/tmr3.h"
 void TMR3_ISR(void);
-# 387 "mcc_generated_files/tmr3.h"
+# 388 "mcc_generated_files/tmr3.h"
  void TMR3_SetInterruptHandler(void (* InterruptHandler)(void));
-# 405 "mcc_generated_files/tmr3.h"
+# 406 "mcc_generated_files/tmr3.h"
 extern void (*TMR3_InterruptHandler)(void);
-# 423 "mcc_generated_files/tmr3.h"
+# 424 "mcc_generated_files/tmr3.h"
 void TMR3_DefaultInterruptHandler(void);
 # 52 "mcc_generated_files/tmr3.c" 2
 
@@ -17187,5 +17208,7 @@ void TMR3_DefaultInterruptHandler(void){
 
     wheel_speed_rpm = (delta * 50 * 60) / 210;
 
+    int16_t output_pwm = PID_Compute(&speed_pid, target_rpm, wheel_speed_rpm);
+    Motor_ApplyPWM(output_pwm);
 
 }

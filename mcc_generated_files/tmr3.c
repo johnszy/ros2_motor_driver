@@ -185,7 +185,9 @@ void TMR3_DefaultInterruptHandler(void){
     // speed = (delta ticks / 0.1s) ? ticks per second
     // then convert to RPM or linear speed
     wheel_speed_rpm = (delta * 50 * 60) / 210;
-    
+    // PID runs every interrupt
+    int16_t output_pwm = PID_Compute(&speed_pid, target_rpm, wheel_speed_rpm);
+    Motor_ApplyPWM(output_pwm);
     // or set custom function using TMR3_SetInterruptHandler()
 }
 

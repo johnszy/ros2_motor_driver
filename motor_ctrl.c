@@ -4,42 +4,76 @@
 
 // Example: global variable for current RPM target (optional)
 static int16_t current_rpm = 0;
+#include "motor_ctrl.h"
 
-void Motor_Start(int16_t target_rpm)
+pid_t speed_pid = {
+    .kp = 4.0f,
+    .ki = 1.5f,
+    .kd = 0.05f,
+    .prev_error = 0,
+    .integral = 0
+};
+
+int16_t target_rpm = 0;
+//int16_t measured_rpm = 0;
+
+int16_t PID_Compute(pid_t *pid, int16_t target, int16_t measured)
 {
-    current_rpm = target_rpm;
+    float error = target - measured;
 
-    // TODO: add real motor control logic
-    // Example placeholders:
-    // PWM_DutyCycle(target_rpm_to_pwm(target_rpm));
-    // Enable motor driver pins
-    // Start closed-loop speed control
+    // Integral accumulation
+    pid->integral += error;
 
-    if (current_rpm >0)
+    // Derivative
+    float derivative = error - pid->prev_error;
+
+    // PID output
+    float output = (pid->kp * error) + (pid->ki * pid->integral) + (pid->kd * derivative);
+
+    pid->prev_error = error;
+
+    // Limit output to PWM range -1023 to +1023
+    if (output > 1023) output = 1023;
+    else if (output < -1023) output = -1023;
+
+    return (int16_t)output;
+}
+
+void Motor_ApplyPWM(int16_t pwm)
+{
+    if (pwm >= 0)
     {
-        PWM3_LoadDutyValue(current_rpm);
+        PWM3_LoadDutyValue(pwm); // forward
         PWM4_LoadDutyValue(0);
     }
     else
     {
         PWM3_LoadDutyValue(0);
-        PWM4_LoadDutyValue(-current_rpm);
+        PWM4_LoadDutyValue(-pwm); // reverse
     }
-    printf("Motor_Start(): Target RPM = %d\n", current_rpm);
+}
+void Motor_Start(int16_t rpm)
+{
+    target_rpm = rpm;
+    speed_pid.prev_error = 0;
+    speed_pid.integral = 0;
+
+    // Start with zero duty (PID will ramp up)
+    Motor_ApplyPWM(0);
+
+    printf("Motor_Start(): Target RPM = %d\n", rpm);
     printf("\n/> ");
 }
 
 void Motor_Stop(void)
 {
-    current_rpm = 0;
+    target_rpm = 0;
+    Motor_ApplyPWM(0);
 
-    // TODO: add real motor stop logic
-    // Disable PWM / motor driver
-    // Zero duty cycles
-    // Brake or coast if needed
-    PWM3_LoadDutyValue(0);
-    PWM4_LoadDutyValue(0);
-    printf("Motor_Stop(): Motor stopped\n");
-    printf("\n/> ");
+    speed_pid.prev_error = 0;
+    speed_pid.integral = 0;
+
+    printf("Motor_Stop\n");
+    printf("/> ");
 }
 

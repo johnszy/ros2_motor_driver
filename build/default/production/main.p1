@@ -1370,17 +1370,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 [i _en0
 -> -> 0 `i `l
 ]
-"64 ./mcc_generated_files/tmr3.h
-[; ;./mcc_generated_files/tmr3.h: 64: volatile int wheel_speed_rpm = 0;
+"65 ./mcc_generated_files/tmr3.h
+[; ;./mcc_generated_files/tmr3.h: 65: volatile int wheel_speed_rpm = 0;
 [v _wheel_speed_rpm `Vi ~T0 @X0 1 e ]
 [i _wheel_speed_rpm
 -> 0 `i
-]
-"66 ./mcc_generated_files/tmr2.h
-[; ;./mcc_generated_files/tmr2.h: 66: volatile unsigned long milli_sec = 0;
-[v _milli_sec `Vul ~T0 @X0 1 e ]
-[i _milli_sec
--> -> -> 0 `i `l `ul
 ]
 [v $root$_main `(v ~T0 @X0 0 e ]
 "54 main.c
@@ -1405,24 +1399,24 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( __delay (1 -> * -> -> 500 `i `d / -> -> 16000000 `l `d .4000.0 `ul ]
 "75
 [; ;main.c: 75:     do { LATCbits.LATC1 = 1; } while(0);
-[e :U 1223 ]
+[e :U 1224 ]
 {
 [e = . . _LATCbits 0 1 -> -> 1 `i `uc ]
 }
-[e :U 1222 ]
+[e :U 1223 ]
 "76
 [; ;main.c: 76:     do { LATCbits.LATC2 = 1; } while(0);
-[e :U 1226 ]
+[e :U 1227 ]
 {
 [e = . . _LATCbits 0 2 -> -> 1 `i `uc ]
 }
-[e :U 1225 ]
+[e :U 1226 ]
 "77
 [; ;main.c: 77:     printf("\n/> ");
 [e ( _printf :s 1C ]
 "79
 [; ;main.c: 79:     while (1)
-[e :U 1228 ]
+[e :U 1229 ]
 "80
 [; ;main.c: 80:     {
 {
@@ -1432,12 +1426,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 "127
 [; ;main.c: 127:     }
 }
-[e :U 1227 ]
-[e $U 1228  ]
-[e :U 1229 ]
+[e :U 1228 ]
+[e $U 1229  ]
+[e :U 1230 ]
 "128
 [; ;main.c: 128: }
-[e :UE 1220 ]
+[e :UE 1221 ]
 }
 [p f _printf 8388608 ]
 [a 1C 10 47 62 32 0 ]

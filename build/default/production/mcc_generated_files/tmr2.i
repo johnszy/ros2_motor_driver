@@ -17015,12 +17015,10 @@ typedef uint32_t uint_fast32_t;
 
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.30\\pic\\include\\c99\\stdbool.h" 1 3
 # 55 "mcc_generated_files/tmr2.h" 2
-# 66 "mcc_generated_files/tmr2.h"
-volatile unsigned long milli_sec = 0;
-# 80 "mcc_generated_files/tmr2.h"
+# 79 "mcc_generated_files/tmr2.h"
 typedef enum
 {
-# 90 "mcc_generated_files/tmr2.h"
+# 89 "mcc_generated_files/tmr2.h"
    TMR2_ROP_STARTS_TMRON,
 
 
@@ -17057,7 +17055,7 @@ typedef enum
 
 
    TMR2_ROP_RESETS_ERSHIGH,
-# 136 "mcc_generated_files/tmr2.h"
+# 135 "mcc_generated_files/tmr2.h"
    TMR2_OS_STARTS_TMRON,
 
 
@@ -17107,7 +17105,7 @@ typedef enum
 
 
    TMR2_OS_STARTS_TMRON_ERSLOW = 0x17,
-# 193 "mcc_generated_files/tmr2.h"
+# 192 "mcc_generated_files/tmr2.h"
    TMR2_MS_STARTS_TMRON_ERSRISINGEDGEDETECT = 0x11,
 
 
@@ -17122,7 +17120,7 @@ typedef enum
    TMR2_MS_STARTS_TMRON_ERSBOTHEDGE = 0x13
 
 } TMR2_HLT_MODE;
-# 221 "mcc_generated_files/tmr2.h"
+# 220 "mcc_generated_files/tmr2.h"
 typedef enum
 {
 
@@ -17188,53 +17186,36 @@ typedef enum
 
 
 } TMR2_HLT_EXT_RESET_SOURCE;
-# 327 "mcc_generated_files/tmr2.h"
+# 326 "mcc_generated_files/tmr2.h"
 void TMR2_Initialize(void);
-# 363 "mcc_generated_files/tmr2.h"
+# 362 "mcc_generated_files/tmr2.h"
 void TMR2_ModeSet(TMR2_HLT_MODE mode);
-# 398 "mcc_generated_files/tmr2.h"
+# 397 "mcc_generated_files/tmr2.h"
 void TMR2_ExtResetSourceSet(TMR2_HLT_EXT_RESET_SOURCE reset);
-# 427 "mcc_generated_files/tmr2.h"
+# 426 "mcc_generated_files/tmr2.h"
 void TMR2_Start(void);
-# 456 "mcc_generated_files/tmr2.h"
+# 455 "mcc_generated_files/tmr2.h"
 void TMR2_StartTimer(void);
-# 488 "mcc_generated_files/tmr2.h"
+# 487 "mcc_generated_files/tmr2.h"
 void TMR2_Stop(void);
-# 520 "mcc_generated_files/tmr2.h"
+# 519 "mcc_generated_files/tmr2.h"
 void TMR2_StopTimer(void);
-# 555 "mcc_generated_files/tmr2.h"
+# 554 "mcc_generated_files/tmr2.h"
 uint8_t TMR2_Counter8BitGet(void);
-# 590 "mcc_generated_files/tmr2.h"
+# 589 "mcc_generated_files/tmr2.h"
 uint8_t TMR2_ReadTimer(void);
-# 629 "mcc_generated_files/tmr2.h"
+# 628 "mcc_generated_files/tmr2.h"
 void TMR2_Counter8BitSet(uint8_t timerVal);
-# 668 "mcc_generated_files/tmr2.h"
+# 667 "mcc_generated_files/tmr2.h"
 void TMR2_WriteTimer(uint8_t timerVal);
-# 720 "mcc_generated_files/tmr2.h"
+# 719 "mcc_generated_files/tmr2.h"
 void TMR2_Period8BitSet(uint8_t periodVal);
-# 772 "mcc_generated_files/tmr2.h"
+# 771 "mcc_generated_files/tmr2.h"
 void TMR2_LoadPeriodRegister(uint8_t periodVal);
-# 790 "mcc_generated_files/tmr2.h"
-void TMR2_ISR(void);
-# 808 "mcc_generated_files/tmr2.h"
- void TMR2_SetInterruptHandler(void (* InterruptHandler)(void));
-# 826 "mcc_generated_files/tmr2.h"
-extern void (*TMR2_InterruptHandler)(void);
-# 844 "mcc_generated_files/tmr2.h"
-void TMR2_DefaultInterruptHandler(void);
+# 809 "mcc_generated_files/tmr2.h"
+_Bool TMR2_HasOverflowOccured(void);
 # 52 "mcc_generated_files/tmr2.c" 2
-
-
-
-
-
-
-void (*TMR2_InterruptHandler)(void);
-
-
-
-
-
+# 62 "mcc_generated_files/tmr2.c"
 void TMR2_Initialize(void)
 {
 
@@ -17256,12 +17237,6 @@ void TMR2_Initialize(void)
 
 
     PIR1bits.TMR2IF = 0;
-
-
-    PIE1bits.TMR2IE = 1;
-
-
-    TMR2_SetInterruptHandler(TMR2_DefaultInterruptHandler);
 
 
     T2CON = 0xC0;
@@ -17336,27 +17311,14 @@ void TMR2_LoadPeriodRegister(uint8_t periodVal)
    TMR2_Period8BitSet(periodVal);
 }
 
-void TMR2_ISR(void)
+_Bool TMR2_HasOverflowOccured(void)
 {
 
-
-    PIR1bits.TMR2IF = 0;
-
-    if(TMR2_InterruptHandler)
+    _Bool status = PIR1bits.TMR2IF;
+    if(status)
     {
-        TMR2_InterruptHandler();
+
+        PIR1bits.TMR2IF = 0;
     }
-}
-
-
-void TMR2_SetInterruptHandler(void (* InterruptHandler)(void)){
-    TMR2_InterruptHandler = InterruptHandler;
-}
-
-void TMR2_DefaultInterruptHandler(void){
-
-
-
-    milli_sec++;
-
+    return status;
 }

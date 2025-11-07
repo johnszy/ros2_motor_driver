@@ -16,14 +16,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 "23 C:\Program Files\Microchip\xc8\v2.30\pic\include\c99\stdlib.h
 [; ;C:\Program Files\Microchip\xc8\v2.30\pic\include\c99\stdlib.h: 23: int atoi (const char *);
 [v _atoi `(i ~T0 @X0 0 ef1`*Cuc ]
-"15 ./motor_ctrl.h
-[; ;./motor_ctrl.h: 15: void Motor_Start(int16_t target_rpm);
+"30 ./motor_ctrl.h
 [v _Motor_Start `(v ~T0 @X0 0 ef1`s ]
 "39 C:\Program Files\Microchip\xc8\v2.30\pic\include\c99\string.h
 [; ;C:\Program Files\Microchip\xc8\v2.30\pic\include\c99\string.h: 39: int strcmp (const char *, const char *);
 [v _strcmp `(i ~T0 @X0 0 ef2`*Cuc`*Cuc ]
-"16 ./motor_ctrl.h
-[; ;./motor_ctrl.h: 16: void Motor_Stop(void);
+"31 ./motor_ctrl.h
 [v _Motor_Stop `(v ~T0 @X0 0 ef ]
 "15 uart_cmd_proc.c
 [; ;uart_cmd_proc.c: 15: extern volatile int wheel_speed_rpm;
@@ -1363,17 +1361,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 [i _en0
 -> -> 0 `i `l
 ]
-"64 ./mcc_generated_files/tmr3.h
-[; ;./mcc_generated_files/tmr3.h: 64: volatile int wheel_speed_rpm = 0;
+"65 ./mcc_generated_files/tmr3.h
+[; ;./mcc_generated_files/tmr3.h: 65: volatile int wheel_speed_rpm = 0;
 [v _wheel_speed_rpm `Vi ~T0 @X0 1 e ]
 [i _wheel_speed_rpm
 -> 0 `i
-]
-"66 ./mcc_generated_files/tmr2.h
-[; ;./mcc_generated_files/tmr2.h: 66: volatile unsigned long milli_sec = 0;
-[v _milli_sec `Vul ~T0 @X0 1 e ]
-[i _milli_sec
--> -> -> 0 `i `l `ul
 ]
 "13 uart_cmd_proc.c
 [; ;uart_cmd_proc.c: 13: static char command[30];
@@ -1398,7 +1390,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = _c ( _getch ..  ]
 "31
 [; ;uart_cmd_proc.c: 31:     if (c != '\n' && c != '\r')
-[e $ ! && != -> _c `ui -> 10 `ui != -> _c `ui -> 13 `ui 1222  ]
+[e $ ! && != -> _c `ui -> 10 `ui != -> _c `ui -> 13 `ui 1223  ]
 "32
 [; ;uart_cmd_proc.c: 32:     {
 {
@@ -1407,18 +1399,18 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = *U + &U _command * -> ++ _cmd_index -> -> 1 `i `uc `ux -> -> # *U &U _command `ui `ux _c ]
 "34
 [; ;uart_cmd_proc.c: 34:         if (cmd_index >= 30)
-[e $ ! >= -> _cmd_index `i -> 30 `i 1223  ]
+[e $ ! >= -> _cmd_index `i -> 30 `i 1224  ]
 "35
 [; ;uart_cmd_proc.c: 35:             cmd_index = 0;
 [e = _cmd_index -> -> 0 `i `uc ]
-[e :U 1223 ]
+[e :U 1224 ]
 "36
 [; ;uart_cmd_proc.c: 36:     }
 }
-[e :U 1222 ]
+[e :U 1223 ]
 "38
 [; ;uart_cmd_proc.c: 38:     if (c == '$')
-[e $ ! == -> _c `ui -> 36 `ui 1224  ]
+[e $ ! == -> _c `ui -> 36 `ui 1225  ]
 "39
 [; ;uart_cmd_proc.c: 39:     {
 {
@@ -1437,10 +1429,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "45
 [; ;uart_cmd_proc.c: 45:     }
 }
-[e :U 1224 ]
+[e :U 1225 ]
 "46
 [; ;uart_cmd_proc.c: 46: }
-[e :UE 1221 ]
+[e :UE 1222 ]
 }
 "63
 [; ;uart_cmd_proc.c: 63: void executeCommand(char cmd[])
@@ -1461,14 +1453,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = _len ( _strlen (1 -> _cmd `*Cuc ]
 "67
 [; ;uart_cmd_proc.c: 67:     if (len > 0)
-[e $ ! > _len -> -> 0 `i `ui 1226  ]
+[e $ ! > _len -> -> 0 `i `ui 1227  ]
 "68
 [; ;uart_cmd_proc.c: 68:         cmd[len-1] = '\0';
 [e = *U + _cmd * -> - _len -> -> 1 `i `ui `ux -> -> # *U _cmd `ui `ux -> -> 0 `ui `uc ]
-[e :U 1226 ]
+[e :U 1227 ]
 "72
 [; ;uart_cmd_proc.c: 72:     if (strncmp(cmd, "start,", 6) == 0)
-[e $ ! == ( _strncmp (3 , , -> _cmd `*Cuc :s 2C -> -> 6 `i `ui -> 0 `i 1227  ]
+[e $ ! == ( _strncmp (3 , , -> _cmd `*Cuc :s 2C -> -> 6 `i `ui -> 0 `i 1228  ]
 "73
 [; ;uart_cmd_proc.c: 73:     {
 {
@@ -1488,14 +1480,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _Motor_Start (1 -> _rpm `s ]
 "82
 [; ;uart_cmd_proc.c: 82:         return;
-[e $UE 1225  ]
+[e $UE 1226  ]
 "83
 [; ;uart_cmd_proc.c: 83:     }
 }
-[e :U 1227 ]
+[e :U 1228 ]
 "85
 [; ;uart_cmd_proc.c: 85:     if (strcmp(cmd, "stop") == 0)
-[e $ ! == ( _strcmp (2 , -> _cmd `*Cuc :s 4C -> 0 `i 1228  ]
+[e $ ! == ( _strcmp (2 , -> _cmd `*Cuc :s 4C -> 0 `i 1229  ]
 "86
 [; ;uart_cmd_proc.c: 86:     {
 {
@@ -1507,14 +1499,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _Motor_Stop ..  ]
 "90
 [; ;uart_cmd_proc.c: 90:         return;
-[e $UE 1225  ]
+[e $UE 1226  ]
 "91
 [; ;uart_cmd_proc.c: 91:     }
 }
-[e :U 1228 ]
+[e :U 1229 ]
 "93
 [; ;uart_cmd_proc.c: 93:     if (strcmp(cmd, "getrpm") == 0)
-[e $ ! == ( _strcmp (2 , -> _cmd `*Cuc :s 6C -> 0 `i 1229  ]
+[e $ ! == ( _strcmp (2 , -> _cmd `*Cuc :s 6C -> 0 `i 1230  ]
 "94
 [; ;uart_cmd_proc.c: 94:     {
 {
@@ -1526,14 +1518,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _printf :s 8C ]
 "97
 [; ;uart_cmd_proc.c: 97:         return;
-[e $UE 1225  ]
+[e $UE 1226  ]
 "98
 [; ;uart_cmd_proc.c: 98:     }
 }
-[e :U 1229 ]
+[e :U 1230 ]
 "114
 [; ;uart_cmd_proc.c: 114:     if (strcmp(cmd, "help") == 0)
-[e $ ! == ( _strcmp (2 , -> _cmd `*Cuc :s 9C -> 0 `i 1230  ]
+[e $ ! == ( _strcmp (2 , -> _cmd `*Cuc :s 9C -> 0 `i 1231  ]
 "115
 [; ;uart_cmd_proc.c: 115:     {
 {
@@ -1572,19 +1564,19 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _printf :s 20C ]
 "127
 [; ;uart_cmd_proc.c: 127:         return;
-[e $UE 1225  ]
+[e $UE 1226  ]
 "128
 [; ;uart_cmd_proc.c: 128:     }
 }
-[e :U 1230 ]
+[e :U 1231 ]
 "131
 [; ;uart_cmd_proc.c: 131:     if (cmd[0] == 'a')
-[e $ ! == -> *U + _cmd * -> -> 0 `i `x -> -> # *U _cmd `i `x `ui -> 97 `ui 1231  ]
+[e $ ! == -> *U + _cmd * -> -> 0 `i `x -> -> # *U _cmd `i `x `ui -> 97 `ui 1232  ]
 "132
 [; ;uart_cmd_proc.c: 132:     {
 {
-[v F10283 `us ~T0 @X0 -> 4 `i s ]
-[i F10283
+[v F10290 `us ~T0 @X0 -> 4 `i s ]
+[i F10290
 :U ..
 "133
 [; ;uart_cmd_proc.c: 133:         uint16_t pwm_nums[4] = {0};
@@ -1592,7 +1584,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 ..
 ]
 [v _pwm_nums `us ~T0 @X0 -> 4 `i a ]
-[e = _pwm_nums F10283 ]
+[e = _pwm_nums F10290 ]
 "134
 [; ;uart_cmd_proc.c: 134:         char *token = strtok(cmd+1, ",");
 [v _token `*uc ~T0 @X0 1 a ]
@@ -1603,8 +1595,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = _count -> 0 `i ]
 "137
 [; ;uart_cmd_proc.c: 137:         while (token != ((void*)0) && count < 4)
-[e $U 1232  ]
-[e :U 1233 ]
+[e $U 1233  ]
+[e :U 1234 ]
 "138
 [; ;uart_cmd_proc.c: 138:         {
 {
@@ -1614,9 +1606,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = _v ( _atoi (1 -> _token `*Cuc ]
 "140
 [; ;uart_cmd_proc.c: 140:             if (v < 0 || v > 1023) v = 0;
-[e $ ! || < _v -> 0 `i > _v -> 1023 `i 1235  ]
+[e $ ! || < _v -> 0 `i > _v -> 1023 `i 1236  ]
 [e = _v -> 0 `i ]
-[e :U 1235 ]
+[e :U 1236 ]
 "141
 [; ;uart_cmd_proc.c: 141:             pwm_nums[count++] = (uint16_t)v;
 [e = *U + &U _pwm_nums * -> -> ++ _count -> 1 `i `ui `ux -> -> # *U &U _pwm_nums `ui `ux -> _v `us ]
@@ -1626,18 +1618,18 @@ Version 4.0 HI-TECH Software Intermediate Code
 "143
 [; ;uart_cmd_proc.c: 143:         }
 }
-[e :U 1232 ]
+[e :U 1233 ]
 "137
 [; ;uart_cmd_proc.c: 137:         while (token != ((void*)0) && count < 4)
-[e $ && != _token -> -> -> 0 `i `*v `*uc < _count -> 4 `i 1233  ]
-[e :U 1234 ]
+[e $ && != _token -> -> -> 0 `i `*v `*uc < _count -> 4 `i 1234  ]
+[e :U 1235 ]
 "144
 [; ;uart_cmd_proc.c: 144:     }
 }
-[e :U 1231 ]
+[e :U 1232 ]
 "171
 [; ;uart_cmd_proc.c: 171:     if (cmd[0] == 'v')
-[e $ ! == -> *U + _cmd * -> -> 0 `i `x -> -> # *U _cmd `i `x `ui -> 118 `ui 1236  ]
+[e $ ! == -> *U + _cmd * -> -> 0 `i `x -> -> # *U _cmd `i `x `ui -> 118 `ui 1237  ]
 "172
 [; ;uart_cmd_proc.c: 172:     {
 {
@@ -1649,14 +1641,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _printf :s 25C ]
 "175
 [; ;uart_cmd_proc.c: 175:         return;
-[e $UE 1225  ]
+[e $UE 1226  ]
 "176
 [; ;uart_cmd_proc.c: 176:     }
 }
-[e :U 1236 ]
+[e :U 1237 ]
 "178
 [; ;uart_cmd_proc.c: 178:     if (cmd[0] == 'f')
-[e $ ! == -> *U + _cmd * -> -> 0 `i `x -> -> # *U _cmd `i `x `ui -> 102 `ui 1237  ]
+[e $ ! == -> *U + _cmd * -> -> 0 `i `x -> -> # *U _cmd `i `x `ui -> 102 `ui 1238  ]
 "179
 [; ;uart_cmd_proc.c: 179:     {
 {
@@ -1668,11 +1660,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _printf :s 27C ]
 "182
 [; ;uart_cmd_proc.c: 182:         return;
-[e $UE 1225  ]
+[e $UE 1226  ]
 "183
 [; ;uart_cmd_proc.c: 183:     }
 }
-[e :U 1237 ]
+[e :U 1238 ]
 "185
 [; ;uart_cmd_proc.c: 185:     printf("Unknown command: %s\n", cmd);
 [e ( _printf , (. :s 28C _cmd ]
@@ -1681,7 +1673,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _printf :s 29C ]
 "187
 [; ;uart_cmd_proc.c: 187: }
-[e :UE 1225 ]
+[e :UE 1226 ]
 }
 [p f _printf 8650880 ]
 [a 4C 115 116 111 112 0 ]

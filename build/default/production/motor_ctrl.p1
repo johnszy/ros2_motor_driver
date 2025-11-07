@@ -1,4 +1,7 @@
 Version 4.0 HI-TECH Software Intermediate Code
+"15 ./mcc_generated_files/../motor_ctrl.h
+[s S3 `f 1 `f 1 `f 1 `f 1 `f 1 ]
+[n S3 . kp ki kd prev_error integral ]
 "129 ./mcc_generated_files/pwm3.h
 [; ;./mcc_generated_files/pwm3.h: 129:  void PWM3_LoadDutyValue(uint16_t dutyValue);
 [v _PWM3_LoadDutyValue `(v ~T0 @X0 0 ef1`us ]
@@ -1339,17 +1342,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 [i _en0
 -> -> 0 `i `l
 ]
-"64 ./mcc_generated_files/tmr3.h
-[; ;./mcc_generated_files/tmr3.h: 64: volatile int wheel_speed_rpm = 0;
+"65 ./mcc_generated_files/tmr3.h
+[; ;./mcc_generated_files/tmr3.h: 65: volatile int wheel_speed_rpm = 0;
 [v _wheel_speed_rpm `Vi ~T0 @X0 1 e ]
 [i _wheel_speed_rpm
 -> 0 `i
-]
-"66 ./mcc_generated_files/tmr2.h
-[; ;./mcc_generated_files/tmr2.h: 66: volatile unsigned long milli_sec = 0;
-[v _milli_sec `Vul ~T0 @X0 1 e ]
-[i _milli_sec
--> -> -> 0 `i `l `ul
 ]
 "6 motor_ctrl.c
 [; ;motor_ctrl.c: 6: static int16_t current_rpm = 0;
@@ -1357,93 +1354,195 @@ Version 4.0 HI-TECH Software Intermediate Code
 [i _current_rpm
 -> -> 0 `i `s
 ]
-"8
-[; ;motor_ctrl.c: 8: void Motor_Start(int16_t target_rpm)
-[v _Motor_Start `(v ~T0 @X0 1 ef1`s ]
 "9
-[; ;motor_ctrl.c: 9: {
+[; ;motor_ctrl.c: 9: pid_t speed_pid = {
+[v _speed_pid `S3 ~T0 @X0 1 e ]
+[i _speed_pid
+:U ..
+:U ..
+-> .4.0 `f
+-> .1.5 `f
+-> .0.05 `f
+-> -> 0 `i `f
+-> -> 0 `i `f
+..
+..
+]
+"17
+[; ;motor_ctrl.c: 17: int16_t target_rpm = 0;
+[v _target_rpm `s ~T0 @X0 1 e ]
+[i _target_rpm
+-> -> 0 `i `s
+]
+"20
+[; ;motor_ctrl.c: 20: int16_t PID_Compute(pid_t *pid, int16_t target, int16_t measured)
+[v _PID_Compute `(s ~T0 @X0 1 ef3`*S3`s`s ]
+"21
+[; ;motor_ctrl.c: 21: {
+{
+[e :U _PID_Compute ]
+"20
+[; ;motor_ctrl.c: 20: int16_t PID_Compute(pid_t *pid, int16_t target, int16_t measured)
+[v _pid `*S3 ~T0 @X0 1 r1 ]
+[v _target `s ~T0 @X0 1 r2 ]
+[v _measured `s ~T0 @X0 1 r3 ]
+"21
+[; ;motor_ctrl.c: 21: {
+[f ]
+"22
+[; ;motor_ctrl.c: 22:     float error = target - measured;
+[v _error `f ~T0 @X0 1 a ]
+[e = _error -> - -> _target `i -> _measured `i `f ]
+"25
+[; ;motor_ctrl.c: 25:     pid->integral += error;
+[e =+ . *U _pid 4 _error ]
+"28
+[; ;motor_ctrl.c: 28:     float derivative = error - pid->prev_error;
+[v _derivative `f ~T0 @X0 1 a ]
+[e = _derivative - _error . *U _pid 3 ]
+"31
+[; ;motor_ctrl.c: 31:     float output = (pid->kp * error) + (pid->ki * pid->integral) + (pid->kd * derivative);
+[v _output `f ~T0 @X0 1 a ]
+[e = _output + + * . *U _pid 0 _error * . *U _pid 1 . *U _pid 4 * . *U _pid 2 _derivative ]
+"33
+[; ;motor_ctrl.c: 33:     pid->prev_error = error;
+[e = . *U _pid 3 _error ]
+"36
+[; ;motor_ctrl.c: 36:     if (output > 1023) output = 1023;
+[e $ ! > _output -> -> 1023 `i `f 1222  ]
+[e = _output -> -> 1023 `i `f ]
+[e $U 1223  ]
+"37
+[; ;motor_ctrl.c: 37:     else if (output < -1023) output = -1023;
+[e :U 1222 ]
+[e $ ! < _output -> -U -> 1023 `i `f 1224  ]
+[e = _output -> -U -> 1023 `i `f ]
+[e :U 1224 ]
+[e :U 1223 ]
+"39
+[; ;motor_ctrl.c: 39:     return (int16_t)output;
+[e ) -> _output `s ]
+[e $UE 1221  ]
+"40
+[; ;motor_ctrl.c: 40: }
+[e :UE 1221 ]
+}
+"42
+[; ;motor_ctrl.c: 42: void Motor_ApplyPWM(int16_t pwm)
+[v _Motor_ApplyPWM `(v ~T0 @X0 1 ef1`s ]
+"43
+[; ;motor_ctrl.c: 43: {
+{
+[e :U _Motor_ApplyPWM ]
+"42
+[; ;motor_ctrl.c: 42: void Motor_ApplyPWM(int16_t pwm)
+[v _pwm `s ~T0 @X0 1 r1 ]
+"43
+[; ;motor_ctrl.c: 43: {
+[f ]
+"44
+[; ;motor_ctrl.c: 44:     if (pwm >= 0)
+[e $ ! >= -> _pwm `i -> 0 `i 1226  ]
+"45
+[; ;motor_ctrl.c: 45:     {
+{
+"46
+[; ;motor_ctrl.c: 46:         PWM3_LoadDutyValue(pwm);
+[e ( _PWM3_LoadDutyValue (1 -> _pwm `us ]
+"47
+[; ;motor_ctrl.c: 47:         PWM4_LoadDutyValue(0);
+[e ( _PWM4_LoadDutyValue (1 -> -> 0 `i `us ]
+"48
+[; ;motor_ctrl.c: 48:     }
+}
+[e $U 1227  ]
+"49
+[; ;motor_ctrl.c: 49:     else
+[e :U 1226 ]
+"50
+[; ;motor_ctrl.c: 50:     {
+{
+"51
+[; ;motor_ctrl.c: 51:         PWM3_LoadDutyValue(0);
+[e ( _PWM3_LoadDutyValue (1 -> -> 0 `i `us ]
+"52
+[; ;motor_ctrl.c: 52:         PWM4_LoadDutyValue(-pwm);
+[e ( _PWM4_LoadDutyValue (1 -> -U -> _pwm `i `us ]
+"53
+[; ;motor_ctrl.c: 53:     }
+}
+[e :U 1227 ]
+"54
+[; ;motor_ctrl.c: 54: }
+[e :UE 1225 ]
+}
+"55
+[; ;motor_ctrl.c: 55: void Motor_Start(int16_t rpm)
+[v _Motor_Start `(v ~T0 @X0 1 ef1`s ]
+"56
+[; ;motor_ctrl.c: 56: {
 {
 [e :U _Motor_Start ]
-"8
-[; ;motor_ctrl.c: 8: void Motor_Start(int16_t target_rpm)
-[v _target_rpm `s ~T0 @X0 1 r1 ]
-"9
-[; ;motor_ctrl.c: 9: {
+"55
+[; ;motor_ctrl.c: 55: void Motor_Start(int16_t rpm)
+[v _rpm `s ~T0 @X0 1 r1 ]
+"56
+[; ;motor_ctrl.c: 56: {
 [f ]
-"10
-[; ;motor_ctrl.c: 10:     current_rpm = target_rpm;
-[e = _current_rpm _target_rpm ]
-"18
-[; ;motor_ctrl.c: 18:     if (current_rpm >0)
-[e $ ! > -> _current_rpm `i -> 0 `i 1221  ]
-"19
-[; ;motor_ctrl.c: 19:     {
-{
-"20
-[; ;motor_ctrl.c: 20:         PWM3_LoadDutyValue(current_rpm);
-[e ( _PWM3_LoadDutyValue (1 -> _current_rpm `us ]
-"21
-[; ;motor_ctrl.c: 21:         PWM4_LoadDutyValue(0);
-[e ( _PWM4_LoadDutyValue (1 -> -> 0 `i `us ]
-"22
-[; ;motor_ctrl.c: 22:     }
-}
-[e $U 1222  ]
-"23
-[; ;motor_ctrl.c: 23:     else
-[e :U 1221 ]
-"24
-[; ;motor_ctrl.c: 24:     {
-{
-"25
-[; ;motor_ctrl.c: 25:         PWM3_LoadDutyValue(0);
-[e ( _PWM3_LoadDutyValue (1 -> -> 0 `i `us ]
-"26
-[; ;motor_ctrl.c: 26:         PWM4_LoadDutyValue(-current_rpm);
-[e ( _PWM4_LoadDutyValue (1 -> -U -> _current_rpm `i `us ]
-"27
-[; ;motor_ctrl.c: 27:     }
-}
-[e :U 1222 ]
-"28
-[; ;motor_ctrl.c: 28:     printf("Motor_Start(): Target RPM = %d\n", current_rpm);
-[e ( _printf , (. :s 1C -> _current_rpm `i ]
-"29
-[; ;motor_ctrl.c: 29:     printf("\n/> ");
+"57
+[; ;motor_ctrl.c: 57:     target_rpm = rpm;
+[e = _target_rpm _rpm ]
+"58
+[; ;motor_ctrl.c: 58:     speed_pid.prev_error = 0;
+[e = . _speed_pid 3 -> -> 0 `i `f ]
+"59
+[; ;motor_ctrl.c: 59:     speed_pid.integral = 0;
+[e = . _speed_pid 4 -> -> 0 `i `f ]
+"62
+[; ;motor_ctrl.c: 62:     Motor_ApplyPWM(0);
+[e ( _Motor_ApplyPWM (1 -> -> 0 `i `s ]
+"64
+[; ;motor_ctrl.c: 64:     printf("Motor_Start(): Target RPM = %d\n", rpm);
+[e ( _printf , (. :s 1C -> _rpm `i ]
+"65
+[; ;motor_ctrl.c: 65:     printf("\n/> ");
 [e ( _printf :s 2C ]
-"30
-[; ;motor_ctrl.c: 30: }
-[e :UE 1220 ]
+"66
+[; ;motor_ctrl.c: 66: }
+[e :UE 1228 ]
 }
-"32
-[; ;motor_ctrl.c: 32: void Motor_Stop(void)
+"68
+[; ;motor_ctrl.c: 68: void Motor_Stop(void)
 [v _Motor_Stop `(v ~T0 @X0 1 ef ]
-"33
-[; ;motor_ctrl.c: 33: {
+"69
+[; ;motor_ctrl.c: 69: {
 {
 [e :U _Motor_Stop ]
 [f ]
-"34
-[; ;motor_ctrl.c: 34:     current_rpm = 0;
-[e = _current_rpm -> -> 0 `i `s ]
-"40
-[; ;motor_ctrl.c: 40:     PWM3_LoadDutyValue(0);
-[e ( _PWM3_LoadDutyValue (1 -> -> 0 `i `us ]
-"41
-[; ;motor_ctrl.c: 41:     PWM4_LoadDutyValue(0);
-[e ( _PWM4_LoadDutyValue (1 -> -> 0 `i `us ]
-"42
-[; ;motor_ctrl.c: 42:     printf("Motor_Stop(): Motor stopped\n");
+"70
+[; ;motor_ctrl.c: 70:     target_rpm = 0;
+[e = _target_rpm -> -> 0 `i `s ]
+"71
+[; ;motor_ctrl.c: 71:     Motor_ApplyPWM(0);
+[e ( _Motor_ApplyPWM (1 -> -> 0 `i `s ]
+"73
+[; ;motor_ctrl.c: 73:     speed_pid.prev_error = 0;
+[e = . _speed_pid 3 -> -> 0 `i `f ]
+"74
+[; ;motor_ctrl.c: 74:     speed_pid.integral = 0;
+[e = . _speed_pid 4 -> -> 0 `i `f ]
+"76
+[; ;motor_ctrl.c: 76:     printf("Motor_Stop\n");
 [e ( _printf :s 3C ]
-"43
-[; ;motor_ctrl.c: 43:     printf("\n/> ");
+"77
+[; ;motor_ctrl.c: 77:     printf("/> ");
 [e ( _printf :s 4C ]
-"44
-[; ;motor_ctrl.c: 44: }
-[e :UE 1223 ]
+"78
+[; ;motor_ctrl.c: 78: }
+[e :UE 1229 ]
 }
 [p f _printf 8388736 ]
 [a 2C 10 47 62 32 0 ]
-[a 4C 10 47 62 32 0 ]
-[a 3C 77 111 116 111 114 95 83 116 111 112 40 41 58 32 77 111 116 111 114 32 115 116 111 112 112 101 100 10 0 ]
+[a 4C 47 62 32 0 ]
+[a 3C 77 111 116 111 114 95 83 116 111 112 10 0 ]
 [a 1C 77 111 116 111 114 95 83 116 97 114 116 40 41 58 32 84 97 114 103 101 116 32 82 80 77 32 61 32 37 100 10 0 ]
