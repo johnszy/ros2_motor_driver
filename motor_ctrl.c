@@ -4,11 +4,12 @@
 
 // Example: global variable for current RPM target (optional)
 static int16_t current_rpm = 0;
+extern volatile bool MotorRunning;
 #include "motor_ctrl.h"
 
 pid_t speed_pid = {
-    .kp = 4.0f,
-    .ki = 1.5f,
+    .kp = 5.5f,
+    .ki = 1.2f,
     .kd = 0.05f,
     .prev_error = 0,
     .integral = 0
@@ -59,7 +60,8 @@ void Motor_Start(int16_t rpm)
     speed_pid.integral = 0;
 
     // Start with zero duty (PID will ramp up)
-    Motor_ApplyPWM(0);
+    MotorRunning = true;
+    Motor_ApplyPWM(rpm);
 
     printf("Motor_Start(): Target RPM = %d\n", rpm);
     printf("\n/> ");
@@ -68,6 +70,7 @@ void Motor_Start(int16_t rpm)
 void Motor_Stop(void)
 {
     target_rpm = 0;
+    MotorRunning = false;
     Motor_ApplyPWM(0);
 
     speed_pid.prev_error = 0;

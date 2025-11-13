@@ -68,11 +68,11 @@ void TMR3_Initialize(void)
     //T3GSS T3G_pin; TMR3GE disabled; T3GTM disabled; T3GPOL low; T3GGO_nDONE done; T3GSPM disabled; T3GVAL disabled; 
     T3GCON = 0x00;
 
-    //TMR3H 216; 
-    TMR3H = 0xD8;
+    //TMR3H 158; 
+    TMR3H = 0x9E;
 
-    //TMR3L 240; 
-    TMR3L = 0xF0;
+    //TMR3L 88; 
+    TMR3L = 0x58;
 
     // Clearing IF flag before enabling the interrupt.
     PIR5bits.TMR3IF = 0;
@@ -174,7 +174,7 @@ void TMR3_SetInterruptHandler(void (* InterruptHandler)(void)){
 
 void TMR3_DefaultInterruptHandler(void){
     // add your TMR3 interrupt custom code
-    
+    extern volatile bool MotorRunning;
     static signed long last_ticks = 0;
     signed long delta;
 
@@ -184,10 +184,16 @@ void TMR3_DefaultInterruptHandler(void){
     // Example calculation ? depends on your encoder CPR and wheel size
     // speed = (delta ticks / 0.1s) ? ticks per second
     // then convert to RPM or linear speed
-    wheel_speed_rpm = (delta * 50 * 60) / 210;
+    wheel_speed_rpm = (delta * 20 * 60) / 205;
     // PID runs every interrupt
-    int16_t output_pwm = PID_Compute(&speed_pid, target_rpm, wheel_speed_rpm);
-    Motor_ApplyPWM(output_pwm);
+    
+    
+    if (MotorRunning){
+       int16_t output_pwm = PID_Compute(&speed_pid, target_rpm, wheel_speed_rpm); 
+       Motor_ApplyPWM(output_pwm);
+       //printf("%d\n",output_pwm);
+    }
+    
     // or set custom function using TMR3_SetInterruptHandler()
 }
 

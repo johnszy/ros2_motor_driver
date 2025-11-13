@@ -12,8 +12,9 @@
 // buffer for incoming characters
 static char command[MAX_COMMAND_LEN];
 static uint8_t cmd_index = 0;
-extern volatile int wheel_speed_rpm;
-
+extern volatile uint16_t wheel_speed_rpm;
+extern volatile long int delta;
+extern volatile long en0;
 // You will implement these somewhere else:
 //extern void Motor_Start(uint16_t target_rpm);
 //extern void Motor_Stop(void);
@@ -92,7 +93,13 @@ void executeCommand(char cmd[])
     
     if (strcmp(cmd, "getrpm") == 0)
     {
-        printf("Motor rpm: %d\n", wheel_speed_rpm);
+        printf("Motor rpm: %d %d\n", wheel_speed_rpm, delta);
+        printf("\n/> ");
+        return;
+    }
+    if (strcmp(cmd, "getenc") == 0)
+    {
+        printf("en0 raw: %ld\n", en0);
         printf("\n/> ");
         return;
     }

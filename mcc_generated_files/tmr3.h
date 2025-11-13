@@ -62,7 +62,8 @@
 #endif
 
 extern volatile long en0;
-volatile int wheel_speed_rpm = 0;
+volatile uint16_t wheel_speed_rpm = 0;
+volatile long delta;
 
 /**
   Section: TMR3 APIs

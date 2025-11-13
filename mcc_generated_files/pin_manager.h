@@ -194,7 +194,7 @@
 #define RC7_SetDigitalMode()        do { ANSELCbits.ANSC7 = 0; } while(0)
 
 
-volatile signed long en0 = 0;
+volatile long en0 = 0;
 
 
 /**

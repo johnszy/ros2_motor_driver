@@ -47,7 +47,10 @@
 
 extern volatile unsigned long milli_sec;
 extern volatile long en0;
-extern volatile int wheel_speed_rpm;
+extern volatile uint16_t wheel_speed_rpm;
+int16_t output_pwm = 0;
+volatile bool MotorRunning = false;
+
 /*
                          Main application
  */
@@ -80,6 +83,7 @@ void main(void)
     {
         
         UART_CommandProcess();
+
      /*   
         // Add your application code
         printf("elapsed time (ms): %lu %ld %d\r\n", milli_sec, en0, wheel_speed_rpm);
