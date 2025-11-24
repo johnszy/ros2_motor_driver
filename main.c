@@ -43,14 +43,17 @@
 
 #include "mcc_generated_files/mcc.h"
 #include "uart_cmd_proc.h"
+#include "motor_regs.h"
 //#include "motor_ctrl.h"
+
+#define _XTAL_FREQ 16000000
 
 extern volatile unsigned long milli_sec;
 extern volatile long en0;
 extern volatile uint16_t wheel_speed_rpm;
 int16_t output_pwm = 0;
 volatile bool MotorRunning = false;
-
+extern volatile uint8_t motor_regs[16]; 
 /*
                          Main application
  */
@@ -58,6 +61,24 @@ void main(void)
 {
     // initialize the device
     SYSTEM_Initialize();
+    reg_set_word(0,1);          // velocity_target
+    reg_set_word(2,1);          // velocity_measured
+    reg_set_word(4,1);          // pwm_value
+    reg_set_word(6,0x0001);     // flags (running bit)
+    reg_set_word(8,5500);       // P gain *1000 = 5.5
+    reg_set_word(1,1200);       // I gain *1000 = 1.2
+    reg_set_word(12,50);        // D gain *1000 = 0.05
+    reg_set_word(14,0);         // reserved
+
+   /*
+    motor_regs[0] = 1;     // velocity_target
+    motor_regs[1] = 1;     // velocity_measured
+    motor_regs[2] = 1;     // pwm_value
+    motor_regs[3] = 0x0001;// flags (running bit)
+    motor_regs[4] = 5500;   // P gain *1000 = 5.5
+    motor_regs[5] = 1200;    // I gain *1000 = 1.2
+    motor_regs[6] = 50;    // D gain *1000 = 0.05
+*/
 
     // When using interrupts, you need to set the Global and Peripheral Interrupt Enable bits
     // Use the following macros to:
