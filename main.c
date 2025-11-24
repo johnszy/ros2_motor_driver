@@ -61,10 +61,11 @@ void main(void)
 {
     // initialize the device
     SYSTEM_Initialize();
+    
     reg_set_word(0,1);          // velocity_target
     reg_set_word(2,1);          // velocity_measured
     reg_set_word(4,1);          // pwm_value
-    reg_set_word(6,0x0001);     // flags (running bit)
+    reg_set_word(6,1);     // flags (running bit)
     reg_set_word(8,5500);       // P gain *1000 = 5.5
     reg_set_word(1,1200);       // I gain *1000 = 1.2
     reg_set_word(12,50);        // D gain *1000 = 0.05

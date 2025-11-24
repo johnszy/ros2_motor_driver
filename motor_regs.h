@@ -10,7 +10,7 @@
 
 
 #include <stdint.h>
-extern volatile uint8_t motor_regs[16];
+volatile uint8_t motor_regs[16];
 
 uint16_t reg_get_word(uint8_t);
 void reg_set_word(uint8_t reg, uint16_t);

@@ -58,15 +58,7 @@ void __interrupt() INTERRUPT_InterruptManager (void)
     }
     else if(INTCONbits.PEIE == 1)
     {
-        if(PIE2bits.BCL1IE == 1 && PIR2bits.BCL1IF == 1)
-        {
-            MSSP_InterruptHandler();
-        } 
-        else if(PIE1bits.SSP1IE == 1 && PIR1bits.SSP1IF == 1)
-        {
-            MSSP_InterruptHandler();
-        } 
-        else if(PIE5bits.TMR3IE == 1 && PIR5bits.TMR3IF == 1)
+        if(PIE5bits.TMR3IE == 1 && PIR5bits.TMR3IF == 1)
         {
             TMR3_ISR();
         } 

@@ -128,25 +128,8 @@ void PIN_MANAGER_Initialize(void)
 	
     RC0PPS = 0x0F;   //RC0->PWM4:PWM4OUT;    
     RXPPS = 0x17;   //RC7->EUSART:RX;    
-    SSPDATPPS = 0x14;   //RC4->MSSP:SDA;    
-    RC3PPS = 0x10;   //RC3->MSSP:SCL;    
     RB7PPS = 0x12;   //RB7->EUSART:TX;    
-    RC4PPS = 0x11;   //RC4->MSSP:SDA;    
     RA2PPS = 0x0E;   //RA2->PWM3:PWM3OUT;    
-    SSPCLKPPS = 0x13;   //RC3->MSSP:SCL; 
-    
-    // I2C SCL1 = RC3
-    RC3PPS = 0x03;      // SCL1 output
-    SSPCLKPPS = 0x13;   // RC3 input (0x13 = RC3)
-
-    // I2C SDA1 = RC4
-    RC4PPS = 0x01;      // SDA1 output
-    SSPDATPPS = 0x14;   // RC4 input (0x14 = RC4)
-
-    
-    
-    
-    
 }
   
 void PIN_MANAGER_IOC(void)

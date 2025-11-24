@@ -53,7 +53,6 @@
 #include <stdbool.h>
 #include <conio.h>
 #include "interrupt_manager.h"
-#include "i2c_slave.h"
 #include "pwm3.h"
 #include "tmr3.h"
 #include "tmr2.h"
