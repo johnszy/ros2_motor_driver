@@ -10,10 +10,12 @@
 
 
 #include <stdint.h>
-volatile uint8_t motor_regs[16];
 
-uint16_t reg_get_word(uint8_t);
-void reg_set_word(uint8_t reg, uint16_t);
+#define REG_LEN 16
+volatile int8_t motor_regs[REG_LEN];
+
+int16_t reg_get_word(int8_t);
+void reg_set_word(int8_t reg, int16_t);
 
 #ifdef	__cplusplus
 extern "C" {
@@ -27,4 +29,3 @@ extern "C" {
 #endif
 
 #endif	/* MOTOR_REGS_H */
-

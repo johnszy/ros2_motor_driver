@@ -53,7 +53,7 @@ extern volatile long en0;
 extern volatile uint16_t wheel_speed_rpm;
 int16_t output_pwm = 0;
 volatile bool MotorRunning = false;
-extern volatile uint8_t motor_regs[16]; 
+extern volatile int8_t motor_regs[REG_LEN]; 
 /*
                          Main application
  */
@@ -67,7 +67,7 @@ void main(void)
     reg_set_word(4,1);          // pwm_value
     reg_set_word(6,1);     // flags (running bit)
     reg_set_word(8,5500);       // P gain *1000 = 5.5
-    reg_set_word(1,1200);       // I gain *1000 = 1.2
+    reg_set_word(10,1200);       // I gain *1000 = 1.2
     reg_set_word(12,50);        // D gain *1000 = 0.05
     reg_set_word(14,0);         // reserved
 

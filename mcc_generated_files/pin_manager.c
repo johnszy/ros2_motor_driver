@@ -73,8 +73,8 @@ void PIN_MANAGER_Initialize(void)
     /**
     ANSELx registers
     */
-    ANSELC = 0x40;
-    ANSELB = 0x70;
+    ANSELC = 0x48;
+    ANSELB = 0x20;
     ANSELA = 0x10;
 
     /**
@@ -126,10 +126,16 @@ void PIN_MANAGER_Initialize(void)
     INTCONbits.IOCIE = 1; 
     
 	
-    RC0PPS = 0x0F;   //RC0->PWM4:PWM4OUT;    
+    RC0PPS = 0x0F;   //RC0->PWM4:PWM4OUT;  
     RXPPS = 0x17;   //RC7->EUSART:RX;    
-    RB7PPS = 0x12;   //RB7->EUSART:TX;    
+    RB7PPS = 0x12;   //RB7->EUSART:TX;  
     RA2PPS = 0x0E;   //RA2->PWM3:PWM3OUT;    
+    
+    SSPCLKPPS = 0x0E;                                                          // RB4 DAT
+    SSPDATPPS = 0x0C;                                                          // RB6 CLK
+    RB4PPS = 0x11;
+    RB6PPS = 0x10;    
+    
 }
   
 void PIN_MANAGER_IOC(void)
