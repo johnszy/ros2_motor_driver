@@ -5,6 +5,7 @@
 #include "mcc_generated_files/mcc.h"
 #include "uart_cmd_proc.h"
 #include "motor_ctrl.h"
+#include "motor_regs.h"
 
 #define MAX_COMMAND_LEN 30
 #define VERSION_DATE "v1.0.0 11-01-25"
@@ -15,18 +16,11 @@ static uint8_t cmd_index = 0;
 extern volatile uint16_t wheel_speed_rpm;
 extern volatile long int delta;
 extern volatile long en0;
-// You will implement these somewhere else:
-//extern void Motor_Start(uint16_t target_rpm);
-//extern void Motor_Stop(void);
-//extern void System_Reset(void);
-//extern void Exit_CommandMode(void);
 
-/**
- * @brief Call repeatedly in main() loop.
- * Assembles characters, calls executeCommand when '$' received.
- */
+
 void UART_CommandProcess(void)
 {
+
     char c = getch();
 
     if (c != '\n' && c != '\r')
@@ -42,25 +36,14 @@ void UART_CommandProcess(void)
         cmd_index = 0;
 
         printf("received: %s\n", command);
+#if DEBUG
         executeCommand(command);
+#endif
     }
 }
 
+#if DEBUG
 
-/**
- * @brief Parses command strings
- *
- * Supported:
- *   start,NN   (NN = RPM)
- *   stop
- *   reset
- *   exit
- *   help
- *   aR,G,B,W   - Set all PWM channels
- *   rNNN / gNNN / bNNN / wNNN  - single PWM
- *   v          - version
- *   f          - flush notification
- */
 void executeCommand(char cmd[])
 {
     // remove trailing '$'
@@ -103,21 +86,20 @@ void executeCommand(char cmd[])
         printf("\n/> ");
         return;
     }
-/*
-    if (strcmp(cmd, "reset") == 0)
-    {
-        printf("System reset\n");
-        System_Reset();
-        return;
+    
+    if (strcmp(cmd, "dump") == 0)
+    {   
+        int8_t j;
+        
+        for( j = 0; j < REG_LEN; j++ )
+        {
+            uint8_t num = reg_get_byte(j); 
+            
+            printf("reg%d: 0x%2x\n", j, num);
+        }
+        
     }
 
-    if (strcmp(cmd, "exit") == 0)
-    {
-        printf("Exiting command mode\n");
-        Exit_CommandMode();
-        return;
-    }
-*/
     if (strcmp(cmd, "help") == 0)
     {
         printf("Commands:\n");
@@ -149,31 +131,7 @@ void executeCommand(char cmd[])
             token = strtok(NULL, ",");
         }
     }
-/*
-        PWM6_LoadDutyValue(pwm_nums[0]);
-        PWM5_LoadDutyValue(pwm_nums[1]);
-        PWM4_LoadDutyValue(pwm_nums[2]);
-        PWM3_LoadDutyValue(pwm_nums[3]);
-        return;
-    }
 
-    // ----- single PWM channels -----
-    if (cmd[0] == 'r' || cmd[0] == 'g' || cmd[0] == 'b' || cmd[0] == 'w')
-    {
-        uint16_t pwm_val = (uint16_t)atoi(cmd+1);
-        if (pwm_val > 1023)
-            pwm_val = 0;
-
-        switch (cmd[0])
-        {
-            case 'r': PWM6_LoadDutyValue(pwm_val); break;
-            case 'g': PWM5_LoadDutyValue(pwm_val); break;
-            case 'b': PWM4_LoadDutyValue(pwm_val); break;
-            case 'w': PWM3_LoadDutyValue(pwm_val); break;
-        }
-        return;
-    }
-*/
     // ----- misc -----
     if (cmd[0] == 'v')
     {
@@ -192,4 +150,5 @@ void executeCommand(char cmd[])
     printf("Unknown command: %s\n", cmd);
     printf("\n/> ");
 }
+#endif
 

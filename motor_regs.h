@@ -6,26 +6,151 @@
  */
 
 #ifndef MOTOR_REGS_H
-#define	MOTOR_REGS_H
-
+#define MOTOR_REGS_H
 
 #include <stdint.h>
+#include <stdbool.h>
 
+/* Total register length */
 #define REG_LEN 16
-volatile int8_t motor_regs[REG_LEN];
 
-int16_t reg_get_word(int8_t);
-void reg_set_word(int8_t reg, int16_t);
+/* ---- Register index enum: positions in motor_regs[] ---- */
 
-#ifdef	__cplusplus
-extern "C" {
-#endif
+typedef enum {
+    REG_MTR_STAT0 = 0,   // byte 0
+    REG_MTR_STAT1,       // byte 1
 
+    REG_MSB_MEAS_RPM,    // byte 2
+    REG_LSB_MEAS_RPM,    // byte 3
 
+    REG_MSB_TARGET_RPM,  // byte 4
+    REG_LSB_TARGET_RPM,  // byte 5
 
+    REG_MSB_PWM,         // byte 6
+    REG_LSB_PWM,         // byte 7
 
-#ifdef	__cplusplus
+    REG_MSB_KP,          // byte 8
+    REG_LSB_KP,          // byte 9 
+
+    REG_MSB_KI,          // byte 10
+    REG_LSB_KI,          // byte 11
+
+    REG_MSB_KD,          // byte 12
+    REG_LSB_KD,          // byte 13
+
+    REG_RESERVED0,       // byte 14
+    REG_RESERVED1        // byte 15
+} motor_reg_index_t;
+
+/* ---- Global register array (define in motor_regs.c) ---- */
+extern volatile int8_t motor_regs[REG_LEN];
+
+/* ---- 16-bit word helpers (MSB at index, LSB at index+1) ---- */
+int16_t reg_get_word(motor_reg_index_t msb_index);
+void    reg_set_word(motor_reg_index_t msb_index, int16_t value);
+
+/* Optionally: simple byte helpers */
+static inline int8_t reg_get_byte(motor_reg_index_t idx)
+{
+    return motor_regs[idx];
 }
-#endif
 
-#endif	/* MOTOR_REGS_H */
+static inline void reg_set_byte(motor_reg_index_t idx, int8_t val)
+{
+    motor_regs[idx] = val;
+}
+
+/* ============================================================
+ *  MTR_STAT0 bit definitions & helpers
+ *  bit0: RUN (0 = stop, 1 = run)
+ *  bit1: DIR (0 = forward, 1 = reverse)
+ * ============================================================ */
+
+#define MTR_STAT0_RUN_MASK   (1u << 0)
+#define MTR_STAT0_DIR_MASK   (1u << 1)
+
+/* ============================================================
+ *  MTR_STAT0 bit definitions & helpers
+ *  bit0: RUN     (0 = stop, 1 = run)
+ *  bit1: DIR     (0 = forward, 1 = reverse)
+ *  bit2: MODE    (0 = open-loop, 1 = closed-loop)
+ * ============================================================ */
+
+#define MTR_STAT0_RUN_MASK    (1u << 0)
+#define MTR_STAT0_DIR_MASK    (1u << 1)
+#define MTR_STAT0_MODE_MASK   (1u << 2)
+
+/* Direction enum */
+typedef enum {
+    MTR_DIR_FORWARD = 0,
+    MTR_DIR_REVERSE = 1
+} mtr_dir_t;
+
+/* Mode enum */
+typedef enum {
+    MTR_MODE_OPEN_LOOP  = 0,
+    MTR_MODE_CLOSED_LOOP = 1
+} mtr_mode_t;
+
+/* Raw access for MTR_STAT0 */
+static inline uint8_t mtr_stat0_get_raw(void)
+{
+    return (uint8_t)motor_regs[REG_MTR_STAT0];
+}
+
+static inline void mtr_stat0_set_raw(uint8_t value)
+{
+    motor_regs[REG_MTR_STAT0] = (int8_t)value;
+}
+
+/* ---- RUN helpers ---- */
+static inline void mtr_stat0_set_run(bool run)
+{
+    uint8_t s = mtr_stat0_get_raw();
+    if (run)   s |=  MTR_STAT0_RUN_MASK;
+    else       s &= ~MTR_STAT0_RUN_MASK;
+    mtr_stat0_set_raw(s);
+}
+
+static inline bool mtr_stat0_is_running(void)
+{
+    return (mtr_stat0_get_raw() & MTR_STAT0_RUN_MASK) != 0u;
+}
+
+/* ---- DIR helpers ---- */
+static inline void mtr_stat0_set_dir(mtr_dir_t dir)
+{
+    uint8_t s = mtr_stat0_get_raw();
+    if (dir == MTR_DIR_REVERSE) s |=  MTR_STAT0_DIR_MASK;
+    else                        s &= ~MTR_STAT0_DIR_MASK;
+    mtr_stat0_set_raw(s);
+}
+
+static inline mtr_dir_t mtr_stat0_get_dir(void)
+{
+    return (mtr_stat0_get_raw() & MTR_STAT0_DIR_MASK) ?
+           MTR_DIR_REVERSE : MTR_DIR_FORWARD;
+}
+
+/* ---- MODE helpers (bit 2) ---- */
+static inline void mtr_stat0_set_mode(mtr_mode_t mode)
+{
+    uint8_t s = mtr_stat0_get_raw();
+    if (mode == MTR_MODE_CLOSED_LOOP) s |=  MTR_STAT0_MODE_MASK;
+    else                               s &= ~MTR_STAT0_MODE_MASK;
+    mtr_stat0_set_raw(s);
+}
+
+static inline mtr_mode_t mtr_stat0_get_mode(void)
+{
+    return (mtr_stat0_get_raw() & MTR_STAT0_MODE_MASK) ?
+           MTR_MODE_CLOSED_LOOP : MTR_MODE_OPEN_LOOP;
+}
+
+void init_regs(void);
+
+void reg_set_word(motor_reg_index_t, int16_t );
+
+int16_t reg_get_word(motor_reg_index_t );
+
+#endif /* MOTOR_REGS_H */

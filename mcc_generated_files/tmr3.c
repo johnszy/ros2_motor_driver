@@ -174,9 +174,11 @@ void TMR3_SetInterruptHandler(void (* InterruptHandler)(void)){
 
 void TMR3_DefaultInterruptHandler(void){
     // add your TMR3 interrupt custom code
-    extern volatile bool MotorRunning;
+    //extern volatile bool MotorRunning;
     static signed long last_ticks = 0;
     signed long delta;
+    //extern mtr_mode_t mode; 
+    extern mtr_ctrl_mode_t s_ctrl_mode;
 
     delta = en0 - last_ticks;
     last_ticks = en0;
@@ -188,7 +190,8 @@ void TMR3_DefaultInterruptHandler(void){
     // PID runs every interrupt
     
     
-    if (MotorRunning){
+    //if (s_ctrl_mode == MTR_CTRL_CLOSED_LOOP){
+    if(0){
        int16_t output_pwm = PID_Compute(&speed_pid, target_rpm, wheel_speed_rpm); 
        Motor_ApplyPWM(output_pwm);
        //printf("%d\n",output_pwm);

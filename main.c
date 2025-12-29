@@ -39,6 +39,19 @@
     CLAIMS IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT 
     OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS 
     SOFTWARE.
+ * 
+ * RX - PIN9 RC7
+ * TX - PIN10 RB7
+ *   
+ * RC0PPS = 0x0F;   //RC0->PWM4:PWM4OUT;  
+    RXPPS = 0x17;   //RC7->EUSART:RX;    
+    RB7PPS = 0x12;   //RB7->EUSART:TX;  
+    RA2PPS = 0x0E;   //RA2->PWM3:PWM3OUT;    
+    
+    SSPCLKPPS = 0x0E;     // RB4 DAT I2C  pin 11
+    SSPDATPPS = 0x0C;     // RB6 CLK I2C  Pin 13
+    RB4PPS = 0x11;
+    RB6PPS = 0x10;  
 */
 
 #include "mcc_generated_files/mcc.h"
@@ -47,6 +60,7 @@
 //#include "motor_ctrl.h"
 
 #define _XTAL_FREQ 16000000
+#define DEBUG 0
 
 extern volatile unsigned long milli_sec;
 extern volatile long en0;
@@ -54,6 +68,19 @@ extern volatile uint16_t wheel_speed_rpm;
 int16_t output_pwm = 0;
 volatile bool MotorRunning = false;
 extern volatile int8_t motor_regs[REG_LEN]; 
+
+
+
+static mtr_ctrl_mode_t s_ctrl_mode = MTR_CTRL_OPEN_LOOP;
+
+// For edge detection so we only act on changes
+static bool       s_last_run   = false;
+static mtr_dir_t  s_last_dir   = MTR_DIR_FORWARD;
+static mtr_mode_t s_last_mode  = MTR_MODE_OPEN_LOOP;
+
+volatile bool       run  = false;  // bit0
+static mtr_dir_t  dir  = MTR_DIR_FORWARD;     // bit1
+static mtr_mode_t mode = MTR_MODE_OPEN_LOOP;    // bit2
 /*
                          Main application
  */
@@ -62,24 +89,9 @@ void main(void)
     // initialize the device
     SYSTEM_Initialize();
     
-    reg_set_word(0,1);          // velocity_target
-    reg_set_word(2,1);          // velocity_measured
-    reg_set_word(4,1);          // pwm_value
-    reg_set_word(6,1);     // flags (running bit)
-    reg_set_word(8,5500);       // P gain *1000 = 5.5
-    reg_set_word(10,1200);       // I gain *1000 = 1.2
-    reg_set_word(12,50);        // D gain *1000 = 0.05
-    reg_set_word(14,0);         // reserved
-
-   /*
-    motor_regs[0] = 1;     // velocity_target
-    motor_regs[1] = 1;     // velocity_measured
-    motor_regs[2] = 1;     // pwm_value
-    motor_regs[3] = 0x0001;// flags (running bit)
-    motor_regs[4] = 5500;   // P gain *1000 = 5.5
-    motor_regs[5] = 1200;    // I gain *1000 = 1.2
-    motor_regs[6] = 50;    // D gain *1000 = 0.05
-*/
+    init_regs();
+    
+    Motor_Init();
 
     // When using interrupts, you need to set the Global and Peripheral Interrupt Enable bits
     // Use the following macros to:
@@ -101,11 +113,38 @@ void main(void)
     LED_EN_SetHigh();  // turn on LED
     printf("\n/> ");
 
-    while (1)
+    while(1)
     {
         
-        UART_CommandProcess();
-
+        // 1. Read current status bits from MTR_STAT0
+        run  = mtr_stat0_is_running();  // bit0
+        dir  = mtr_stat0_get_dir();     // bit1
+        mode = mtr_stat0_get_mode();    // bit2
+        
+        while( mode == MTR_MODE_OPEN_LOOP )
+        {
+            if(run)
+            {
+                I2C_Set_PWM();
+            }
+            else
+            {
+                Motor_Stop();
+            }
+            run  = mtr_stat0_is_running();  // bit0
+            dir  = mtr_stat0_get_dir();     // bit1
+            mode = mtr_stat0_get_mode();    // bit2
+  
+        }
+        
+        
+        
+        
+        
+        
+        
+        //UART_CommandProcess();
+        //Motor_Task();
      /*   
         // Add your application code
         printf("elapsed time (ms): %lu %ld %d\r\n", milli_sec, en0, wheel_speed_rpm);

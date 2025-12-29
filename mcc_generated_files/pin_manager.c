@@ -131,8 +131,8 @@ void PIN_MANAGER_Initialize(void)
     RB7PPS = 0x12;   //RB7->EUSART:TX;  
     RA2PPS = 0x0E;   //RA2->PWM3:PWM3OUT;    
     
-    SSPCLKPPS = 0x0E;                                                          // RB4 DAT
-    SSPDATPPS = 0x0C;                                                          // RB6 CLK
+    SSPCLKPPS = 0x0E;     // RB4 DAT
+    SSPDATPPS = 0x0C;     // RB6 CLK
     RB4PPS = 0x11;
     RB6PPS = 0x10;    
     
