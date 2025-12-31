@@ -47,7 +47,7 @@
 */
 
 #include "pin_manager.h"
-
+#include "../motor_regs.h"
 
 
 

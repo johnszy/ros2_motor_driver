@@ -134,6 +134,9 @@ void main(void)
             run  = mtr_stat0_is_running();  // bit0
             dir  = mtr_stat0_get_dir();     // bit1
             mode = mtr_stat0_get_mode();    // bit2
+            
+            int32_t snap = snapshot_ticks_atomic();
+            publish_ticks_to_regs(snap);
   
         }
         

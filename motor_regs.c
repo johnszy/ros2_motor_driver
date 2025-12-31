@@ -28,7 +28,6 @@ void init_regs(void)
     reg_set_word(REG_MSB_KP,5500);          // P gain /1000 = 5.5
     reg_set_word(REG_MSB_KI,1200);          // I gain /1000 = 1.2
     reg_set_word(REG_MSB_KD,50);            // D gain /1000 = 0.05
-    reg_set_word(REG_RESERVED0,0);          // reserved
-
-
+    publish_ticks_to_regs(0);               // init ticks0-ticks3 to 0
+   
 }

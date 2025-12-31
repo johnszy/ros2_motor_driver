@@ -50,7 +50,7 @@
 
 #include <xc.h>
 #include "tmr3.h"
-
+#include "../motor_regs.h"
 /**
   Section: Global Variables Definitions
 */
@@ -187,6 +187,7 @@ void TMR3_DefaultInterruptHandler(void){
     // speed = (delta ticks / 0.1s) ? ticks per second
     // then convert to RPM or linear speed
     wheel_speed_rpm = (delta * 20 * 60) / 205;
+    reg_set_word(REG_MSB_MEAS_RPM, wheel_speed_rpm);
     // PID runs every interrupt
     
     

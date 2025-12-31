@@ -12,7 +12,9 @@
 #include <stdbool.h>
 
 /* Total register length */
-#define REG_LEN 16
+#define REG_LEN 18
+#define STAT1_SEQ_MASK   0x03
+
 
 /* ---- Register index enum: positions in motor_regs[] ---- */
 
@@ -30,7 +32,7 @@ typedef enum {
     REG_LSB_PWM,         // byte 7
 
     REG_MSB_KP,          // byte 8
-    REG_LSB_KP,          // byte 9 
+    REG_LSB_KP,          // byte 9
 
     REG_MSB_KI,          // byte 10
     REG_LSB_KI,          // byte 11
@@ -38,12 +40,16 @@ typedef enum {
     REG_MSB_KD,          // byte 12
     REG_LSB_KD,          // byte 13
 
-    REG_RESERVED0,       // byte 14
-    REG_RESERVED1        // byte 15
+    // int32 encoder ticks (LSB..MSB)
+    REG_POS_TICKS_B0,    // byte 14 (LSB)
+    REG_POS_TICKS_B1,    // byte 15
+    REG_POS_TICKS_B2,    // byte 16
+    REG_POS_TICKS_B3     // byte 17 (MSB)
 } motor_reg_index_t;
 
 /* ---- Global register array (define in motor_regs.c) ---- */
 extern volatile int8_t motor_regs[REG_LEN];
+extern volatile long en0;
 
 /* ---- 16-bit word helpers (MSB at index, LSB at index+1) ---- */
 int16_t reg_get_word(motor_reg_index_t msb_index);
@@ -58,6 +64,50 @@ static inline int8_t reg_get_byte(motor_reg_index_t idx)
 static inline void reg_set_byte(motor_reg_index_t idx, int8_t val)
 {
     motor_regs[idx] = val;
+}
+
+
+
+static inline uint8_t stat1_get_seq(void)
+{
+    return (uint8_t)motor_regs[REG_MTR_STAT1] & STAT1_SEQ_MASK;
+}
+
+static inline void stat1_set_seq(uint8_t seq)
+{
+    uint8_t s = (uint8_t)motor_regs[REG_MTR_STAT1];
+    s = (s & (uint8_t)~STAT1_SEQ_MASK) | (seq & STAT1_SEQ_MASK);
+    motor_regs[REG_MTR_STAT1] = (int8_t)s;
+}
+
+static inline void stat1_bump_seq(void)
+{
+    uint8_t seq = (stat1_get_seq() + 1u) & 0x03u;
+    stat1_set_seq(seq);
+}
+
+
+static inline void publish_ticks_to_regs(int32_t ticks)
+{
+    // Mark update start
+    stat1_bump_seq();
+    
+    motor_regs[REG_POS_TICKS_B0] = (int8_t)((uint32_t)ticks >> 0);
+    motor_regs[REG_POS_TICKS_B1] = (int8_t)((uint32_t)ticks >> 8);
+    motor_regs[REG_POS_TICKS_B2] = (int8_t)((uint32_t)ticks >> 16);
+    motor_regs[REG_POS_TICKS_B3] = (int8_t)((uint32_t)ticks >> 24);
+    
+    // Mark update complete
+    stat1_bump_seq();
+}
+
+static inline int32_t snapshot_ticks_atomic(void)
+{
+    int32_t snap;
+    di();              // disable interrupts (XC8)
+    snap = en0;
+    ei();              // enable interrupts
+    return snap;
 }
 
 /* ============================================================
