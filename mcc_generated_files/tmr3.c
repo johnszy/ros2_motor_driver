@@ -178,7 +178,7 @@ void TMR3_DefaultInterruptHandler(void){
     static signed long last_ticks = 0;
     signed long delta;
     //extern mtr_mode_t mode; 
-    extern mtr_ctrl_mode_t s_ctrl_mode;
+    extern mtr_ctrl_mode_t op_mode;
 
     delta = en0 - last_ticks;
     last_ticks = en0;
@@ -191,8 +191,8 @@ void TMR3_DefaultInterruptHandler(void){
     // PID runs every interrupt
     
     
-    //if (s_ctrl_mode == MTR_CTRL_CLOSED_LOOP){
-    if(0){
+    if (op_mode == MTR_MODE_CLOSED_LOOP){
+    //if(0){
        int16_t output_pwm = PID_Compute(&speed_pid, target_rpm, wheel_speed_rpm); 
        Motor_ApplyPWM(output_pwm);
        //printf("%d\n",output_pwm);

@@ -80,7 +80,7 @@ static mtr_mode_t s_last_mode  = MTR_MODE_OPEN_LOOP;
 
 volatile bool       run  = false;  // bit0
 static mtr_dir_t  dir  = MTR_DIR_FORWARD;     // bit1
-static mtr_mode_t mode = MTR_MODE_OPEN_LOOP;    // bit2
+volatile mtr_mode_t op_mode = MTR_MODE_OPEN_LOOP;    // bit2
 /*
                          Main application
  */
@@ -119,9 +119,9 @@ void main(void)
         // 1. Read current status bits from MTR_STAT0
         run  = mtr_stat0_is_running();  // bit0
         dir  = mtr_stat0_get_dir();     // bit1
-        mode = mtr_stat0_get_mode();    // bit2
+        op_mode = mtr_stat0_get_mode();    // bit2
         
-        while( mode == MTR_MODE_OPEN_LOOP )
+        while( op_mode == MTR_MODE_OPEN_LOOP )
         {
             if(run)
             {
@@ -133,17 +133,29 @@ void main(void)
             }
             run  = mtr_stat0_is_running();  // bit0
             dir  = mtr_stat0_get_dir();     // bit1
-            mode = mtr_stat0_get_mode();    // bit2
+            op_mode = mtr_stat0_get_mode();    // bit2
             
             int32_t snap = snapshot_ticks_atomic();
             publish_ticks_to_regs(snap);
   
         }
-        
-        
-        
-        
-        
+        while( op_mode == MTR_MODE_CLOSED_LOOP )
+        {
+            if(run)
+            {
+                //I2C_Set_PWM();
+            }
+            else
+            {
+                Motor_Stop();
+            }
+            run  = mtr_stat0_is_running();  // bit0
+            dir  = mtr_stat0_get_dir();     // bit1
+            op_mode = mtr_stat0_get_mode();    // bit2
+            
+            int32_t snap = snapshot_ticks_atomic();
+            publish_ticks_to_regs(snap);
+        }
         
         
         //UART_CommandProcess();
