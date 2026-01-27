@@ -64,7 +64,7 @@
 extern volatile long en0;
 volatile uint16_t wheel_speed_rpm = 0;
 volatile long delta;
-extern volatile uint16_t ticks_per_rot;
+extern volatile int16_t ticks_per_rot;
 
 /**
   Section: TMR3 APIs

@@ -72,7 +72,7 @@ int16_t output_pwm = 0;
 volatile bool MotorRunning = false;
 extern volatile int8_t motor_regs[REG_LEN]; 
 
-volatile uint16_t ticks_per_rot = DEF_TICKS_PER_ROTATION;
+volatile int16_t ticks_per_rot = DEF_TICKS_PER_ROTATION;
 
 static mtr_ctrl_mode_t s_ctrl_mode = MTR_CTRL_OPEN_LOOP;
 

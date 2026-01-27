@@ -211,6 +211,13 @@ static inline void stat1_clear_dirty(void)
     stat1_set_dirty(false);
 }
 
+static inline bool stat1_should_mark_dirty_on_byte_write(uint8_t idx)
+{
+    return (idx == REG_MSB_KP) || (idx == REG_LSB_KP) ||
+           (idx == REG_MSB_KI) || (idx == REG_LSB_KI) ||
+           (idx == REG_MSB_KD) || (idx == REG_LSB_KD) ||
+           (idx == REG_MSB_TPR) || (idx == REG_LSB_TPR);
+}
 static inline bool stat1_should_mark_dirty_on_word_write(motor_reg_index_t msb_index)
 {
     return (msb_index == REG_MSB_KP) ||

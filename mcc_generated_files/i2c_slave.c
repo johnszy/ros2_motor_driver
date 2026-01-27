@@ -264,11 +264,21 @@ void MSSP_InterruptHandler(void)
                     regAdd = 0;
                 }
                 else
-                {
+                {                
+                    uint8_t data = SSP1BUF;
+
                     if (index < REG_LEN)
-                        motor_regs[index++] = SSP1BUF;
+                    {
+                        /* Mark DIRTY if host writes PID or TPR bytes */
+                        if (stat1_should_mark_dirty_on_byte_write(index)) {
+                            stat1_mark_dirty();
+                        }
+
+                        motor_regs[index++] = (int8_t)data;
+                    }
                     else
-                        temp = SSP1BUF;     // discard
+                    {
+                    }//temp = SSP1BUF;     // discard
                 }
                 SSP1CON1bits.CKP = 1;
             }

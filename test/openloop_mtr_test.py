@@ -180,6 +180,11 @@ class MotorCtrl:
         self.write_stat0(0b00000000)
         print("Motor STOP bit written")
 
+    def go_config(self):
+        self.write_stat0(0b00001000)
+        print("Motor Config bit written")
+
+
     # ---- Target RPM (u16 BE in regs 0x04/0x05) ----
     def write_target_rpm(self, target_rpm: int):
         self.ft.write_u16_be(self.addr, REG_MSB_TARGET_RPM, target_rpm)
@@ -262,6 +267,70 @@ class MotorCtrl:
 
     def read_tpr(self) -> int:
         return self.ft.read_u16_be(self.addr, REG_MSB_TPR)
+    
+
+def test_tpr():
+    ft = FT232H()
+    mtr = MotorCtrl(ft, I2C_ADDRESS_DEFAULT)
+
+    addrs = ft.scan()
+    print("I2C addresses found:", [hex(a) for a in addrs])
+
+    stat0 = mtr.read_stat0()
+    print(f"MTR_STAT0 = 0x{stat0:02X}")
+    print(f"TPR = {mtr.read_tpr()}")
+
+
+
+    # ------ run wheel forward -----------
+    mtr.write_pwm(350)
+
+    mtr.go_forward()
+
+    for _ in range(10):
+        rad = mtr.read_motor_pos_rad()
+        print(f"Radians travelled = {rad:.2f}\n")
+        rpm = mtr.read_meas_rpm()
+        print(f"Current rpms = {rpm}\n")
+        time.sleep(0.3)
+
+    mtr.stop()
+    time.sleep(2)
+    mtr.go_config()
+    time.sleep(2)
+    stat0 = mtr.read_stat0()
+    print(f"MTR_STAT0 = 0x{stat0:02X}")
+    mtr.write_tpr(21)
+
+    time.sleep(3)
+    mtr.write_stat0(0)
+    print(f"TPR = {mtr.read_tpr()}")
+
+        # ------ run wheel forward -----------
+    mtr.write_pwm(350)
+
+    mtr.go_forward()
+
+    for _ in range(10):
+        rad = mtr.read_motor_pos_rad()
+        print(f"Radians travelled = {rad:.2f}\n")
+        rpm = mtr.read_meas_rpm()
+        print(f"Current rpms = {rpm}\n")
+        time.sleep(0.3)
+
+    mtr.stop()
+    mtr.go_config()
+    time.sleep(2)
+    stat0 = mtr.read_stat0()
+    print(f"MTR_STAT0 = 0x{stat0:02X}")
+    mtr.write_tpr(205)  # back to default
+    time.sleep(.1)
+    stat0 = mtr.read_stat0()
+    print(f"MTR_STAT0 = 0x{stat0:02X}")
+
+
+
+
 
 # ------------------------------------ Main --------------------------------------
 
@@ -340,4 +409,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    test_tpr()
+    #main()
+    

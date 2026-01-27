@@ -10,6 +10,7 @@
 // Example: global variable for current RPM target (optional)
 static int16_t current_rpm = 0;
 extern volatile bool MotorRunning;
+extern volatile int16_t ticks_per_rot;
 int16_t target_rpm = 0;
 //int16_t measured_rpm = 0;
 
@@ -224,13 +225,13 @@ void config_mtr_params(void)
         stat1_clear_dirty();   
         // blink LED
         LED_EN_SetLow();  // turn off LED
-        __delay_ms(100);
+        __delay_ms(500);
         LED_EN_SetHigh();  // turn on LED
-        __delay_ms(100);
+        __delay_ms(500); 
         LED_EN_SetLow();  // turn off LED
-        __delay_ms(100);
+        __delay_ms(500);
         LED_EN_SetHigh();  // turn on LED
-        __delay_ms(100);
+        __delay_ms(500);
     }
         
 }
