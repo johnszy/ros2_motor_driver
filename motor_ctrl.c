@@ -212,3 +212,32 @@ void Motor_Stop(void)
     //printf("/> ");
 }
 
+void Motor_ClosedLoopStep(void)
+{
+    
+}
+
+void config_mtr_params(void)
+{
+    if (stat1_is_dirty()){
+        update_globals_from_regs();
+        stat1_clear_dirty();   
+        // blink LED
+        LED_EN_SetLow();  // turn off LED
+        __delay_ms(100);
+        LED_EN_SetHigh();  // turn on LED
+        __delay_ms(100);
+        LED_EN_SetLow();  // turn off LED
+        __delay_ms(100);
+        LED_EN_SetHigh();  // turn on LED
+        __delay_ms(100);
+    }
+        
+}
+
+void update_globals_from_regs(void)
+{
+    init_PID();
+    ticks_per_rot = reg_get_word(REG_MSB_TPR);
+    // TODO allow I2C to update POS_TICKS right now the publish ticks in main continually prevents it 
+}

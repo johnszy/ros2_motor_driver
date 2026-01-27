@@ -178,7 +178,7 @@ void TMR3_DefaultInterruptHandler(void){
     static signed long last_ticks = 0;
     signed long delta;
     //extern mtr_mode_t mode; 
-    extern mtr_ctrl_mode_t op_mode;
+    extern volatile mtr_ctrl_mode_t op_mode;
 
     delta = en0 - last_ticks;
     last_ticks = en0;
@@ -186,7 +186,8 @@ void TMR3_DefaultInterruptHandler(void){
     // Example calculation ? depends on your encoder CPR and wheel size
     // speed = (delta ticks / 0.1s) ? ticks per second
     // then convert to RPM or linear speed
-    wheel_speed_rpm = (delta * 20 * 60) / 205;
+    wheel_speed_rpm = (delta * 20 * 60) / ticks_per_rot;
+    //wheel_speed_rpm = (delta * 20 * 60) / 205;
     reg_set_word(REG_MSB_MEAS_RPM, wheel_speed_rpm);
     // PID runs every interrupt
     

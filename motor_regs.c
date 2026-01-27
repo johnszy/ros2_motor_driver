@@ -13,10 +13,17 @@ int16_t reg_get_word(motor_reg_index_t msb_index)
 
 void reg_set_word(motor_reg_index_t msb_index, int16_t value)
 {
+
     uint16_t v = (uint16_t)value;
 
-    motor_regs[msb_index]     = (int8_t)((v >> 8) & 0xFF);
-    motor_regs[msb_index + 1] = (int8_t)(v & 0xFF);
+    motor_regs[msb_index]     = (int8_t)((v >> 8) & 0xFFu);
+    motor_regs[msb_index + 1] = (int8_t)( v       & 0xFFu);
+
+    /* Mark DIRTY only for PID + TPR writes */
+    if (stat1_should_mark_dirty_on_word_write(msb_index)) {
+        stat1_mark_dirty();
+    }
+
 }
 
 void init_regs(void)
@@ -28,6 +35,7 @@ void init_regs(void)
     reg_set_word(REG_MSB_KP,5500);          // P gain /1000 = 5.5
     reg_set_word(REG_MSB_KI,1200);          // I gain /1000 = 1.2
     reg_set_word(REG_MSB_KD,50);            // D gain /1000 = 0.05
+    reg_set_word(REG_MSB_TPR,205);          // default encoder ticks per single shaft rotation = 205
     publish_ticks_to_regs(0);               // init ticks0-ticks3 to 0
    
 }

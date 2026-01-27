@@ -62,14 +62,17 @@
 #define _XTAL_FREQ 16000000
 #define DEBUG 0
 
+#define DEF_TICKS_PER_ROTATION 205 
+
 extern volatile unsigned long milli_sec;
 extern volatile long en0;
 extern volatile uint16_t wheel_speed_rpm;
+
 int16_t output_pwm = 0;
 volatile bool MotorRunning = false;
 extern volatile int8_t motor_regs[REG_LEN]; 
 
-
+volatile uint16_t ticks_per_rot = DEF_TICKS_PER_ROTATION;
 
 static mtr_ctrl_mode_t s_ctrl_mode = MTR_CTRL_OPEN_LOOP;
 
@@ -89,6 +92,7 @@ void main(void)
     // initialize the device
     SYSTEM_Initialize();
     
+    LED_EN_SetHigh();  // turn on LED
     init_regs();
     
     Motor_Init();
@@ -110,101 +114,47 @@ void main(void)
     __delay_ms(500);
     
     MTR_EN_SetHigh();   // enable motor driver
-    LED_EN_SetHigh();  // turn on LED
+    
     printf("\n/> ");
 
-    while(1)
+    while (1)
+{
+    
+    // --- Read command bits (these may change any time via I2C ISR) ---
+    run     = mtr_stat0_is_running();  // bit0
+    dir     = mtr_stat0_get_dir();     // bit1
+    op_mode = mtr_stat0_get_mode();    // bit2 (+ any future bits)
+
+    // --- Apply config if requested (COMMIT handshake) ---
+    // if (cfg_commit_requested()) { apply_config_atomically(); }
+
+    // --- Mode/state machine ---
+    switch (op_mode)
     {
-        
-        // 1. Read current status bits from MTR_STAT0
-        run  = mtr_stat0_is_running();  // bit0
-        dir  = mtr_stat0_get_dir();     // bit1
-        op_mode = mtr_stat0_get_mode();    // bit2
-        
-        while( op_mode == MTR_MODE_OPEN_LOOP )
-        {
-            if(run)
-            {
-                I2C_Set_PWM();
-            }
-            else
-            {
-                Motor_Stop();
-            }
-            run  = mtr_stat0_is_running();  // bit0
-            dir  = mtr_stat0_get_dir();     // bit1
-            op_mode = mtr_stat0_get_mode();    // bit2
-            
-            int32_t snap = snapshot_ticks_atomic();
-            publish_ticks_to_regs(snap);
-  
-        }
-        while( op_mode == MTR_MODE_CLOSED_LOOP )
-        {
-            if(run)
-            {
-                //I2C_Set_PWM();
-            }
-            else
-            {
-                Motor_Stop();
-            }
-            run  = mtr_stat0_is_running();  // bit0
-            dir  = mtr_stat0_get_dir();     // bit1
-            op_mode = mtr_stat0_get_mode();    // bit2
-            
-            int32_t snap = snapshot_ticks_atomic();
-            publish_ticks_to_regs(snap);
-        }
-        
-        
-        //UART_CommandProcess();
-        //Motor_Task();
-     /*   
-        // Add your application code
-        printf("elapsed time (ms): %lu %ld %d\r\n", milli_sec, en0, wheel_speed_rpm);
-        __delay_ms(1000);
-        
-        PWM3_LoadDutyValue(300);
-        PWM4_LoadDutyValue(0);
-     
-        __delay_ms(500);
-        printf("elapsed time (ms): %lu %ld %d\r\n", milli_sec, en0, wheel_speed_rpm);
-        __delay_ms(500);
-        printf("elapsed time (ms): %lu %ld %d\r\n", milli_sec, en0, wheel_speed_rpm);
-        __delay_ms(500);
-        printf("elapsed time (ms): %lu %ld %d\r\n", milli_sec, en0, wheel_speed_rpm);
-        __delay_ms(500);
-        printf("elapsed time (ms): %lu %ld %d\r\n", milli_sec, en0, wheel_speed_rpm);
-        
-        
-        PWM3_LoadDutyValue(0);
-        PWM4_LoadDutyValue(0);
-        __delay_ms(1000);
-        printf("elapsed time (ms): %lu %ld %d\r\n", milli_sec, en0, wheel_speed_rpm);
-        __delay_ms(500);
-        printf("elapsed time (ms): %lu %ld %d\r\n", milli_sec, en0, wheel_speed_rpm);
-        
-        PWM3_LoadDutyValue(0);
-        PWM4_LoadDutyValue(300);
-        __delay_ms(500);
-        printf("elapsed time (ms): %lu %ld %d\r\n", milli_sec, en0, wheel_speed_rpm);
-        __delay_ms(500);
-        printf("elapsed time (ms): %lu %ld %d\r\n", milli_sec, en0, wheel_speed_rpm);
-        __delay_ms(500);
-        printf("elapsed time (ms): %lu %ld %d\r\n", milli_sec, en0, wheel_speed_rpm);
-        __delay_ms(500);
-        printf("elapsed time (ms): %lu %ld %d\r\n", milli_sec, en0, wheel_speed_rpm);
-        
-        
-        PWM3_LoadDutyValue(0);
-        PWM4_LoadDutyValue(0);
-        __delay_ms(1000);
-        printf("elapsed time (ms): %lu %ld %d\r\n", milli_sec, en0, wheel_speed_rpm);
-        __delay_ms(500);
-        printf("elapsed time (ms): %lu %ld %d\r\n", milli_sec, en0, wheel_speed_rpm);
-*/        
+        case MTR_MODE_OPEN_LOOP:
+            if (run) { I2C_Set_PWM(); }
+            else     { Motor_Stop(); }
+            break;
+
+        case MTR_MODE_CLOSED_LOOP:
+            if (run) { Motor_ClosedLoopStep(); }   // <-- you implement as non-blocking ?one step?
+            else     { Motor_Stop(); }
+            break;
+
+        case MTR_MODE_CONFIG:
+        default:
+            Motor_Stop();                           // safest default
+            config_mtr_params();                       // optional (validate/clamp, set status flags)
+            break;
     }
+
+    // --- Publish encoder ticks every pass (or on a tick flag) ---
+    {
+        int32_t snap = snapshot_ticks_atomic();
+        publish_ticks_to_regs(snap);
+    }
+}
+
 }
 /**
  End of File

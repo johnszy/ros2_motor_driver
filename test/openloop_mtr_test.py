@@ -41,6 +41,9 @@ REG_TICKS_1 = 0x0F         # byte 15
 REG_TICKS_2 = 0x10         # byte 16
 REG_TICKS_3 = 0x11         # byte 17 (MSB)
 
+REG_MSB_TPR = 0x12         # byte 18
+REG_LSB_TPR = 0x13         # byte 19 (MSB)
+
 TICKS_PER_REV = 205  # encoder ticks per wheel revolution
 PI = 3.14159
 
@@ -254,6 +257,11 @@ class MotorCtrl:
         rpm_u16 = self.ft.read_u16_be(self.addr, REG_MSB_MEAS_RPM)
         return to_int16(rpm_u16)
 
+    def write_tpr(self, tpr: int):
+        self.ft.write_u16_be(self.addr, REG_MSB_TPR, tpr)
+
+    def read_tpr(self) -> int:
+        return self.ft.read_u16_be(self.addr, REG_MSB_TPR)
 
 # ------------------------------------ Main --------------------------------------
 
@@ -268,7 +276,10 @@ def main():
     print(f"MTR_STAT0 = 0x{stat0:02X}")
 
     mtr.write_pwm(350)
-    mtr.go_reverse()
+
+    #mtr.go_reverse()
+
+    mtr.go_forward()
 
     pwm = mtr.read_pwm()
     print(f"PWM = {pwm} (0x{pwm:04X})")
@@ -276,7 +287,7 @@ def main():
     print(f"PWM_LSB = 0x{pwm & 0xFF:02X}")
 
     # --------- motor position and rpms ---------------
-    for _ in range(5):
+    for _ in range(10):
         rad = mtr.read_motor_pos_rad()
         print(f"Radians travelled = {rad:.2f}\n")
         rpm = mtr.read_meas_rpm()
@@ -303,6 +314,12 @@ def main():
     time.sleep(0.2)
     print(f"KD = {mtr.read_kd()}")
     mtr.write_kd(50)  # back to default
+
+    print(f"TPR = {mtr.read_tpr()}")
+    mtr.write_tpr(21)
+    time.sleep(0.2)
+    print(f"TPR = {mtr.read_tpr()}")
+    mtr.write_tpr(205)  # back to default
 
     time.sleep(0.4)
     rad = mtr.read_motor_pos_rad()

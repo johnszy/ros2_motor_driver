@@ -38,7 +38,9 @@ void Motor_Task(void);
 void Motor_ApplyPWM(int16_t pwm);
 void Motor_Start(int16_t rpm);
 void Motor_Stop(void);
-
+void Motor_ClosedLoopStep(void);
+void config_mtr_params(void);
+void update_globals_from_regs(void);
 
 #ifdef	__cplusplus
 extern "C" {
