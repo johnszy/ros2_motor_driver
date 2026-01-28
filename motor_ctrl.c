@@ -11,7 +11,7 @@
 static int16_t current_rpm = 0;
 extern volatile bool MotorRunning;
 extern volatile int16_t ticks_per_rot;
-int16_t target_rpm = 0;
+volatile int16_t target_rpm = 0;
 //int16_t measured_rpm = 0;
 
 #if DEBUG
@@ -216,6 +216,8 @@ void Motor_Stop(void)
 void Motor_ClosedLoopStep(void)
 {
     
+    LED_EN_SetLow();
+    target_rpm = reg_get_word(REG_MSB_TARGET_RPM);
 }
 
 void config_mtr_params(void)
@@ -240,5 +242,6 @@ void update_globals_from_regs(void)
 {
     init_PID();
     ticks_per_rot = reg_get_word(REG_MSB_TPR);
+    
     // TODO allow I2C to update POS_TICKS right now the publish ticks in main continually prevents it 
 }

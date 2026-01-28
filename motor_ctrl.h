@@ -22,13 +22,13 @@ typedef struct {
 
 // Extern lets other .c files access these variables
 extern pid_t speed_pid;
-extern int16_t target_rpm;
+extern volatile int16_t target_rpm;
 //extern int16_t measured_rpm;
 
-typedef enum {
-    MTR_CTRL_OPEN_LOOP = 0,
-    MTR_CTRL_CLOSED_LOOP = 1
-} mtr_ctrl_mode_t;
+//typedef enum {
+//    MTR_CTRL_OPEN_LOOP = 0,
+//    MTR_CTRL_CLOSED_LOOP = 1
+//} mtr_ctrl_mode_t;
 
 int16_t PID_Compute(pid_t *pid, int16_t target, int16_t measured);
 void I2C_Set_PWM(void);

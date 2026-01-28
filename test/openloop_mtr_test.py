@@ -141,7 +141,18 @@ class FT232H:
         return int.from_bytes(b, byteorder="little", signed=False) & 0xFFFFFFFF
 
 
-# --------------------------------- Motor Ctrl -----------------------------------
+# ----------------------------- STAT0 bit masks -----------------------------
+
+STAT0_RUN_BIT      = 0
+STAT0_DIR_BIT      = 1
+STAT0_MODE_BIT     = 2   # 0=open-loop, 1=closed-loop
+STAT0_CONFIG_BIT   = 3   # 1=config mode
+
+STAT0_RUN_MASK     = 1 << STAT0_RUN_BIT
+STAT0_DIR_MASK     = 1 << STAT0_DIR_BIT
+STAT0_MODE_MASK    = 1 << STAT0_MODE_BIT
+STAT0_CONFIG_MASK  = 1 << STAT0_CONFIG_BIT
+
 
 class MotorCtrl:
     """
@@ -165,25 +176,96 @@ class MotorCtrl:
     def read_stat1(self) -> int:
         return self.ft.read_u8(self.addr, REG_MTR_STAT1)
 
-    # ---- Convenience motion ----
+    # ---- Read/Modify/Write STAT0 safely ----
+    def _stat0_rmw(self, *, set_mask: int = 0, clear_mask: int = 0) -> int:
+        """
+        Read STAT0, apply set/clear masks, write back, return new value.
+        """
+        s = self.read_stat0()
+        s = (s | (set_mask & 0xFF)) & (~clear_mask & 0xFF)
+        self.write_stat0(s)
+        return s
+
+    # ---- Mode helpers ----
+    def set_open_loop(self) -> int:
+        # MODE=0
+        return self._stat0_rmw(clear_mask=STAT0_MODE_MASK)
+
+    def set_closed_loop(self) -> int:
+        # MODE=1
+        return self._stat0_rmw(set_mask=STAT0_MODE_MASK)
+
+    def enter_config(self) -> int:
+        # CONFIG=1, and typically RUN=0 while configuring
+        return self._stat0_rmw(set_mask=STAT0_CONFIG_MASK, clear_mask=STAT0_RUN_MASK)
+
+    def exit_config(self) -> int:
+        # CONFIG=0
+        return self._stat0_rmw(clear_mask=STAT0_CONFIG_MASK)
+
+    # ---- Direction + run helpers (don’t clobber MODE/CONFIG) ----
+    def set_forward(self) -> int:
+        return self._stat0_rmw(clear_mask=STAT0_DIR_MASK)
+
+    def set_reverse(self) -> int:
+        return self._stat0_rmw(set_mask=STAT0_DIR_MASK)
+
+    def start(self) -> int:
+        return self._stat0_rmw(set_mask=STAT0_RUN_MASK)
+
+    def stop(self) -> int:
+        return self._stat0_rmw(clear_mask=STAT0_RUN_MASK)
+
+    # ---- One-shot convenience actions ----
     def go_forward(self):
-        # bit0=run, bit1=dir (0=fwd,1=rev)  -> forward+run = 0b00000001
-        self.write_stat0(0b00000001)
-        print("Motor FORWARD + START bit written")
+        self.set_forward()
+        time.sleep(.2)
+        self.start()
+        print("Motor FORWARD + RUN")
 
     def go_reverse(self):
-        # reverse+run = 0b00000011
-        self.write_stat0(0b00000011)
-        print("Motor REVERSE + START bit written")
-
-    def stop(self):
-        self.write_stat0(0b00000000)
-        print("Motor STOP bit written")
+        self.set_reverse()
+        self.start()
+        print("Motor REVERSE + RUN")
 
     def go_config(self):
-        self.write_stat0(0b00001000)
-        print("Motor Config bit written")
+        self.enter_config()
+        print("Motor CONFIG mode entered")
 
+    # ---- Config-only writes wrapped safely ----
+    def configure_pid_and_tpr(self, *, kp: int = None, ki: int = None, kd: int = None, tpr: int = None):
+        """
+        Enter CONFIG, write selected params, exit CONFIG.
+        """
+        self.enter_config()
+        time.sleep(0.05)  # small settle time (safe with your PIC loop)
+
+        if kp is not None: self.write_kp(kp)
+        if ki is not None: self.write_ki(ki)
+        if kd is not None: self.write_kd(kd)
+        if tpr is not None: self.write_tpr(tpr)
+
+        time.sleep(0.05)
+        self.exit_config()
+
+    # ---- Closed-loop start helper ----
+    def start_closed_loop(self, *, target_rpm: int, direction: str = "fwd"):
+        """
+        Set MODE=CLOSED_LOOP, set target RPM, then RUN.
+        """
+        self.stop()
+        self.exit_config()          # ensure not stuck in config
+        #self.set_closed_loop()
+        self.write_target_rpm(target_rpm)
+        time.sleep(.2)
+        self.write_stat0(5)
+        time.sleep(.2)
+        if direction.lower().startswith("r"):
+            self.set_reverse()
+        else:
+            self.set_forward()
+
+        self.start()
 
     # ---- Target RPM (u16 BE in regs 0x04/0x05) ----
     def write_target_rpm(self, target_rpm: int):
@@ -268,6 +350,79 @@ class MotorCtrl:
     def read_tpr(self) -> int:
         return self.ft.read_u16_be(self.addr, REG_MSB_TPR)
     
+def _print_stat0_decode(stat0: int):
+    run    = 1 if (stat0 & STAT0_RUN_MASK) else 0
+    direc  = 1 if (stat0 & STAT0_DIR_MASK) else 0
+    mode   = 1 if (stat0 & STAT0_MODE_MASK) else 0
+    cfg    = 1 if (stat0 & STAT0_CONFIG_MASK) else 0
+    print(f"STAT0=0x{stat0:02X}  RUN={run} DIR={direc} MODE={'CL' if mode else 'OL'} CFG={cfg}")
+
+
+def test_closed_loop_step_response(
+    target_rpm: int = 180,
+    sample_s: float = 0.25,
+    duration_s: float = 6.0,
+    settle_window_s: float = 2.0,
+    allowed_error_rpm: int = 40,
+    direction: str = "fwd",
+):
+    ft = FT232H()
+    mtr = MotorCtrl(ft, I2C_ADDRESS_DEFAULT)
+
+    print("I2C addresses found:", [hex(a) for a in ft.scan()])
+
+    # Ensure known config (optional: set gains/tpr here)
+    # mtr.configure_pid_and_tpr(kp=5500, ki=1200, kd=50, tpr=205)
+
+    mtr.start_closed_loop(target_rpm=target_rpm, direction=direction)
+
+    t0 = time.time()
+    samples = []
+    while True:
+        t = time.time() - t0
+        rpm = mtr.read_meas_rpm()
+        stat0 = mtr.read_stat0()
+        samples.append((t, rpm, stat0))
+        print(f"t={t:5.2f}s  rpm={rpm:6d}", end="  ")
+        _print_stat0_decode(stat0)
+        if t >= duration_s:
+            break
+        time.sleep(sample_s)
+
+    mtr.stop()
+
+    # Evaluate “settled” error over the last settle_window_s
+    t_end = samples[-1][0]
+    tail = [rpm for (t, rpm, _) in samples if t >= (t_end - settle_window_s)]
+    if not tail:
+        print("Not enough samples to evaluate settling.")
+        return
+
+    avg_tail = sum(tail) / len(tail)
+    err = avg_tail - target_rpm
+    print(f"\nTail avg rpm = {avg_tail:.1f}, target = {target_rpm}, error = {err:.1f} rpm")
+
+    if abs(err) <= allowed_error_rpm:
+        print("PASS: closed-loop settles near target (within allowed error).")
+    else:
+        print("FAIL: closed-loop did not settle near target (consider PID/tpr, friction, supply, polarity).")
+
+
+def test_closed_loop_direction_flip(target_rpm: int = 160):
+    ft = FT232H()
+    mtr = MotorCtrl(ft, I2C_ADDRESS_DEFAULT)
+
+    print("I2C addresses found:", [hex(a) for a in ft.scan()])
+
+    mtr.start_closed_loop(target_rpm=target_rpm, direction="fwd")
+    time.sleep(2.0)
+
+    print("\nFlip direction -> reverse (keeping CLOSED_LOOP + RUN via masks)")
+    mtr.set_reverse()     # RMW: should NOT clear mode bit
+    time.sleep(2.0)
+
+    mtr.stop()
+    print("Done.")
 
 def test_tpr():
     ft = FT232H()
@@ -279,13 +434,17 @@ def test_tpr():
     stat0 = mtr.read_stat0()
     print(f"MTR_STAT0 = 0x{stat0:02X}")
     print(f"TPR = {mtr.read_tpr()}")
-
+   
 
 
     # ------ run wheel forward -----------
     mtr.write_pwm(350)
-
-    mtr.go_forward()
+    # time.sleep(.2)
+    # mtr.set_open_loop()
+    # time.sleep(.2)
+    # time.sleep(1)
+    # mtr.go_forward()
+    mtr.write_stat0(1)
 
     for _ in range(10):
         rad = mtr.read_motor_pos_rad()
@@ -408,7 +567,14 @@ def main():
     mtr.stop()
 
 
+
 if __name__ == "__main__":
-    test_tpr()
-    #main()
+    # Quick closed-loop step test
+    test_closed_loop_step_response(target_rpm=380, direction="fwd")
+
+    # Or direction flip test
+    # test_closed_loop_direction_flip(target_rpm=160)
     
+    # --------------OPEN LOOP ---------------------
+    #test_tpr()
+    #main()

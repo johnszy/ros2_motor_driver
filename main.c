@@ -57,7 +57,7 @@
 #include "mcc_generated_files/mcc.h"
 #include "uart_cmd_proc.h"
 #include "motor_regs.h"
-//#include "motor_ctrl.h"
+#include "motor_ctrl.h"
 
 #define _XTAL_FREQ 16000000
 #define DEBUG 0
@@ -74,7 +74,7 @@ extern volatile int8_t motor_regs[REG_LEN];
 
 volatile int16_t ticks_per_rot = DEF_TICKS_PER_ROTATION;
 
-static mtr_ctrl_mode_t s_ctrl_mode = MTR_CTRL_OPEN_LOOP;
+//static mtr_ctrl_mode_t s_ctrl_mode = MTR_CTRL_OPEN_LOOP;
 
 // For edge detection so we only act on changes
 static bool       s_last_run   = false;

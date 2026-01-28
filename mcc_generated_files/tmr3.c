@@ -178,7 +178,7 @@ void TMR3_DefaultInterruptHandler(void){
     static signed long last_ticks = 0;
     signed long delta;
     //extern mtr_mode_t mode; 
-    extern volatile mtr_ctrl_mode_t op_mode;
+    extern volatile mtr_mode_t op_mode;
     //extern volatile int16_t ticks_per_rot;
     delta = en0 - last_ticks;
     last_ticks = en0;
