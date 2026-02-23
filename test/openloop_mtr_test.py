@@ -570,11 +570,11 @@ def main():
 
 if __name__ == "__main__":
     # Quick closed-loop step test
-    test_closed_loop_step_response(target_rpm=380, direction="fwd")
+    #test_closed_loop_step_response(target_rpm=380, direction="fwd")
 
     # Or direction flip test
     # test_closed_loop_direction_flip(target_rpm=160)
     
     # --------------OPEN LOOP ---------------------
-    #test_tpr()
+    test_tpr()
     #main()

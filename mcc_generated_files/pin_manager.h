@@ -66,44 +66,44 @@
 #define PULL_UP_DISABLED     0
 
 // get/set ENC0 aliases
-#define ENC0_TRIS                 TRISAbits.TRISA0
-#define ENC0_LAT                  LATAbits.LATA0
-#define ENC0_PORT                 PORTAbits.RA0
-#define ENC0_WPU                  WPUAbits.WPUA0
-#define ENC0_OD                   ODCONAbits.ODA0
-#define ENC0_ANS                  ANSELAbits.ANSA0
-#define ENC0_SetHigh()            do { LATAbits.LATA0 = 1; } while(0)
-#define ENC0_SetLow()             do { LATAbits.LATA0 = 0; } while(0)
-#define ENC0_Toggle()             do { LATAbits.LATA0 = ~LATAbits.LATA0; } while(0)
-#define ENC0_GetValue()           PORTAbits.RA0
-#define ENC0_SetDigitalInput()    do { TRISAbits.TRISA0 = 1; } while(0)
-#define ENC0_SetDigitalOutput()   do { TRISAbits.TRISA0 = 0; } while(0)
-#define ENC0_SetPullup()          do { WPUAbits.WPUA0 = 1; } while(0)
-#define ENC0_ResetPullup()        do { WPUAbits.WPUA0 = 0; } while(0)
-#define ENC0_SetPushPull()        do { ODCONAbits.ODA0 = 0; } while(0)
-#define ENC0_SetOpenDrain()       do { ODCONAbits.ODA0 = 1; } while(0)
-#define ENC0_SetAnalogMode()      do { ANSELAbits.ANSA0 = 1; } while(0)
-#define ENC0_SetDigitalMode()     do { ANSELAbits.ANSA0 = 0; } while(0)
+#define ENC0_TRIS                 TRISAbits.TRISA4
+#define ENC0_LAT                  LATAbits.LATA4
+#define ENC0_PORT                 PORTAbits.RA4
+#define ENC0_WPU                  WPUAbits.WPUA4
+#define ENC0_OD                   ODCONAbits.ODA4
+#define ENC0_ANS                  ANSELAbits.ANSA4
+#define ENC0_SetHigh()            do { LATAbits.LATA4 = 1; } while(0)
+#define ENC0_SetLow()             do { LATAbits.LATA4 = 0; } while(0)
+#define ENC0_Toggle()             do { LATAbits.LATA4 = ~LATAbits.LATA4; } while(0)
+#define ENC0_GetValue()           PORTAbits.RA4
+#define ENC0_SetDigitalInput()    do { TRISAbits.TRISA4 = 1; } while(0)
+#define ENC0_SetDigitalOutput()   do { TRISAbits.TRISA4 = 0; } while(0)
+#define ENC0_SetPullup()          do { WPUAbits.WPUA4 = 1; } while(0)
+#define ENC0_ResetPullup()        do { WPUAbits.WPUA4 = 0; } while(0)
+#define ENC0_SetPushPull()        do { ODCONAbits.ODA4 = 0; } while(0)
+#define ENC0_SetOpenDrain()       do { ODCONAbits.ODA4 = 1; } while(0)
+#define ENC0_SetAnalogMode()      do { ANSELAbits.ANSA4 = 1; } while(0)
+#define ENC0_SetDigitalMode()     do { ANSELAbits.ANSA4 = 0; } while(0)
 
 // get/set ENC1 aliases
-#define ENC1_TRIS                 TRISAbits.TRISA1
-#define ENC1_LAT                  LATAbits.LATA1
-#define ENC1_PORT                 PORTAbits.RA1
-#define ENC1_WPU                  WPUAbits.WPUA1
-#define ENC1_OD                   ODCONAbits.ODA1
-#define ENC1_ANS                  ANSELAbits.ANSA1
-#define ENC1_SetHigh()            do { LATAbits.LATA1 = 1; } while(0)
-#define ENC1_SetLow()             do { LATAbits.LATA1 = 0; } while(0)
-#define ENC1_Toggle()             do { LATAbits.LATA1 = ~LATAbits.LATA1; } while(0)
-#define ENC1_GetValue()           PORTAbits.RA1
-#define ENC1_SetDigitalInput()    do { TRISAbits.TRISA1 = 1; } while(0)
-#define ENC1_SetDigitalOutput()   do { TRISAbits.TRISA1 = 0; } while(0)
-#define ENC1_SetPullup()          do { WPUAbits.WPUA1 = 1; } while(0)
-#define ENC1_ResetPullup()        do { WPUAbits.WPUA1 = 0; } while(0)
-#define ENC1_SetPushPull()        do { ODCONAbits.ODA1 = 0; } while(0)
-#define ENC1_SetOpenDrain()       do { ODCONAbits.ODA1 = 1; } while(0)
-#define ENC1_SetAnalogMode()      do { ANSELAbits.ANSA1 = 1; } while(0)
-#define ENC1_SetDigitalMode()     do { ANSELAbits.ANSA1 = 0; } while(0)
+#define ENC1_TRIS                 TRISAbits.TRISA5
+#define ENC1_LAT                  LATAbits.LATA5
+#define ENC1_PORT                 PORTAbits.RA5
+#define ENC1_WPU                  WPUAbits.WPUA5
+#define ENC1_OD                   ODCONAbits.ODA5
+//#define ENC1_ANS                  ANSELAbits.ANSA5
+#define ENC1_SetHigh()            do { LATAbits.LATA5 = 1; } while(0)
+#define ENC1_SetLow()             do { LATAbits.LATA5 = 0; } while(0)
+#define ENC1_Toggle()             do { LATAbits.LATA5 = ~LATAbits.LATA5; } while(0)
+#define ENC1_GetValue()           PORTAbits.RA5
+#define ENC1_SetDigitalInput()    do { TRISAbits.TRISA5 = 1; } while(0)
+#define ENC1_SetDigitalOutput()   do { TRISAbits.TRISA5 = 0; } while(0)
+#define ENC1_SetPullup()          do { WPUAbits.WPUA5 = 1; } while(0)
+#define ENC1_ResetPullup()        do { WPUAbits.WPUA5 = 0; } while(0)
+#define ENC1_SetPushPull()        do { ODCONAbits.ODA5 = 0; } while(0)
+#define ENC1_SetOpenDrain()       do { ODCONAbits.ODA5 = 1; } while(0)
+//#define ENC1_SetAnalogMode()      do { ANSELAbits.ANSA5 = 1; } while(0)
+//#define ENC1_SetDigitalMode()     do { ANSELAbits.ANSA5 = 0; } while(0)
 
 // get/set RA2 procedures
 #define RA2_SetHigh()            do { LATAbits.LATA2 = 1; } while(0)
@@ -256,7 +256,7 @@ void PIN_MANAGER_IOC(void);
  * @Example
     IOCAF0_ISR();
  */
-void IOCAF0_ISR(void);
+void IOCAF4_ISR(void);
 
 /**
   @Summary
@@ -279,7 +279,7 @@ void IOCAF0_ISR(void);
     IOCAF0_SetInterruptHandler(MyInterruptHandler);
 
 */
-void IOCAF0_SetInterruptHandler(void (* InterruptHandler)(void));
+void IOCAF4_SetInterruptHandler(void (* InterruptHandler)(void));
 
 /**
   @Summary
@@ -303,7 +303,7 @@ void IOCAF0_SetInterruptHandler(void (* InterruptHandler)(void));
     IOCAF0_SetInterruptHandler(IOCAF0_InterruptHandler);
 
 */
-extern void (*IOCAF0_InterruptHandler)(void);
+extern void (*IOCAF4_InterruptHandler)(void);
 
 /**
   @Summary
@@ -327,7 +327,7 @@ extern void (*IOCAF0_InterruptHandler)(void);
     IOCAF0_SetInterruptHandler(IOCAF0_DefaultInterruptHandler);
 
 */
-void IOCAF0_DefaultInterruptHandler(void);
+void IOCAF4_DefaultInterruptHandler(void);
 
 
 
